@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Aula_MVC_Top.Models.Noticias>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Listagem de Noticias</h2>
+@Html.ActionLink("Nova Noticia", "Create")
+
+    <table width="100%">
+        <tr>
+            <th>Id</th>
+            <th>Tipo</th>
+            <th>Tipo</th>
+            <th>Descrição</th>
+            <th>Editar</th>
+            <th>Excluir</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                @*<td>@item.Id_Topico</td>*@
+                @if (item.Id_Topico == 1)
+                {
+                    <td>Esportes</td>
+                }
+                else if (item.Id_Topico == 2)
+                {
+                    <td>Gastronomia</td>
+                }
+                <td>@item.Titulo</td>
+                <td>@item.Descricao</td>
+                <td>@Html.ActionLink("Editar", "Edit", new { id = item.Id })</td>
+                <td>@Html.ActionLink("Excluir", "Delete", new { id = item.Id })</td>
+            </tr>
+        }
+    </table>
+
+@*@section rodape{
+    <p>Aqui fica o Rodape somente desta pagina</p>
+    }*@
+

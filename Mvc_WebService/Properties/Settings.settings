@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Mvc_WebService.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Mvc_WebService_ws_meu_webservice_WebService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost:52793/WebService.asmx</Value>
+    </Setting>
+    <Setting Name="Mvc_WebService_End_WebService" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://localhost:61938/WebService.asmx</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

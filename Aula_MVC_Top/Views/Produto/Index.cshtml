@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Aula_MVC_Top.Models.Produto>
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Listagem de Produtos</h2>
+<br/>
+@Html.ActionLink("Novo Produto", "Create")
+<br/>
+<table width="100%" border="1">
+    <tr>
+        <th>Id</th>
+        <th>Descrição</th>
+        <th>Quantida</th>
+        <th>Preço de Venda</th>
+        <th>Alterar</th>
+        <th>Excluir</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+    <tr>
+        <td>@item.Id_produtto</td>
+        <td>@item.Descricao</td>
+        <td>@item.Quantidade</td>
+        <td>@item.Preco_Venda</td>
+        <td>@Html.ActionLink("Editar", "Edit", new { id = item.Id_produtto })</td>
+        <td>@Html.ActionLink("Excluir", "Delete", new { id = item.Id_produtto })</td>
+    </tr>
+    }
+</table>
+

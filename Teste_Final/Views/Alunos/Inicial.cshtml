@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "Inicial";
+}
+
+@*$('#form').serialize();*@
+<h2>Lista De Alunos</h2>
+<form>
+    <div id="div_pesquisa">
+        Pesquisa: <input type="text" id="txt_pesquisa" name="txt_pesquisa" onchange="Pesquisa()" />
+        @*<input type="button" id="btn_pesquisa" name="btn_pesquisa" onclick="Pesquisa()" value="Pesquisar" />*@
+    </div>
+    <div id="Lista_Alunos">
+
+    </div>
+
+    <div id="div_table">
+        <table id="Tabela2" width="100%" border="1">
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+    <h2>@Html.ActionLink("Adicionar Novo Aluno", "Add_novo_aluno")</h2>
+</form>
+@section scripts{
+    <script>
+        @*$(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("Lista_Tudo")',
+                type: 'Get',
+                data: {},
+                success: function (data) {
+                    $("#Lista_Alunos").html(data.tbl_alunos);
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        });*@
+
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("Lista_Tudo2")',
+                type: 'Get',
+                data: {},
+                success: function (data) {
+                    Mostra_tabela_jeito2(data.Lista_Alunos);
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        });
+
+        function Mostra_tabela_jeito2(lista) {
+            $("#Tabela2").html('');
+            $("#Tabela2").append("<tr><th>Nome</th><th>Sexo</th><th>Editar</th></tr>");
+            for ($i = 0; $i < lista.length; $i++) {
+                var aux = lista[$i].Id_Aluno;
+                $("#Tabela2").append("<tr><td>" + lista[$i].Nome + "</td><td>" + lista[$i].Sexo + "</td><td> < input type = button id = btn_Alt_Nota name = btn_Alt_Nota onclick = Alterar_Nota(" + $i + ") value = Alterar /> <input type=button id=btn_Rem_Nota name=btn_Rem_Nota onclick=Remover_Nota(" + $i +") value = Excluir /> </td></tr>")
+
+                @*@Html.ActionLink("Editar", "Editar", new { id = lista[$i].Id_Aluno }) *@
+                }
+        }
+
+        function Pesquisa() {
+            $.ajax({
+                url: '@Url.Action("Pesquisa_expecifica")',
+                type: 'POST',
+                data: { txt_pesquisa: $('#txt_pesquisa').val() },
+                success: function (data) {
+                    $("#Lista_Alunos").html(data.tbl_alunos)
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+    </script>
+    }

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Meu_Projeto.Models.Produtos>
+@{
+    ViewBag.Title = "Meu_Carrinho";
+}
+
+<h2>Meu Carrinho</h2>
+
+<table width="70%">
+    <tr>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Valor</th>
+        <th>Tipo</th>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Adicionar ao carrinho</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Nome</td>
+            <td>@item.Descricao</td>
+            <td>@item.Valor</td>
+            <td>@item.Tipo</td>
+            <td>@item.Marca</td>
+            <td>@item.Modelo</td>
+            <td>@Html.ActionLink("Remover", "RemoverCarrinho", new { id = item.Id })</td>
+        </tr>
+    }
+</table>
+<td>Valor Total</td>
+<td><input type="text" id="txt_total" name="txt_total" value="@ViewBag.Total" readonly /></td>
+@using (Html.BeginForm("FinalizarCompra", "USer", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <div style="margin-top:5px">
+        @Html.TextBox("btnFinalizaCompra", "Finalizar Compra", new { type = "submit" })
+    </div>
+}
+
+@section Lateral{
+    @{
+        if (Session["Logado"].Equals("Usuario"))
+        {
+            @Html.Partial("_LateralUser");
+        }
+    }
+}
+
+@section Rodape{
+    @{ if (Session["Logado"].Equals("Usuario"))
+        {
+            @Html.Partial("_Footer")
+        }
+    }
+}

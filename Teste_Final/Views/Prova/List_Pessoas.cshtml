@@ -1,0 +1,81 @@
+﻿
+@{
+    ViewBag.Title = "List_Pessoas";
+}
+
+<h2>Lista Clientes</h2>
+<form method="post" id="form">
+
+
+    <div id="div_Lista">
+        @*<table id="Tabela" width="100%" border="1">
+                <tbody></tbody>
+            </table>*@
+    </div>
+    <br />
+    <input type="button" id="btnAddCliente" name="btnAddCliente" value="Cadastrar Cliente" onclick="CadastrarCliente()" />
+
+    <input type="button" id="btnCadastrarProduto" name="btnCadastrarProduto" value="Cadastrar Produto" onclick="CadastrarProduto()" />
+
+    <input type="button" id="btnListaNotas" name="btnListaNotas" value="Notas" onclick="Notas()" />
+</form>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            //Listar_Tudo();
+            Cria_Lista();
+        });
+
+        function Cria_Lista() {
+            $.ajax({
+                url: '@Url.Action("TrazLista")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    $("#div_Lista").html(data.Tabela);
+                    
+                   
+                    
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+        function Add_Nota(id){
+            $.ajax({
+                url: '@Url.Action("SetIdSessionCliente")',
+                type: 'POST',
+                data: { id: id },
+                success: function (data) {
+                    var targetUrl = "/Prova/Nota";
+                    window.location.href = targetUrl;
+                   
+                    
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+        
+        function Notas() {
+            var targetUrl = "/Prova/Lista_Nota";
+            window.location.href = targetUrl;
+        }
+
+        function CadastrarCliente() {
+            var targetUrl = "/Prova/Cad_Pessoa";
+            window.location.href = targetUrl;
+        }
+
+        function CadastrarProduto() {
+            var targetUrl = "/Prova/Cad_Produto";
+            window.location.href = targetUrl;
+        }
+    </script>
+
+}

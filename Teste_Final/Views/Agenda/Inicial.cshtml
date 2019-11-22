@@ -1,0 +1,178 @@
+﻿
+@{
+    ViewBag.Title = "Inicial";
+}
+
+<h2>Inicial</h2>
+
+<form method="post" id="form">
+    <div id="divPesquisa">
+        <label for="txtData" id="lblData"> Data: </label>
+        <input type="date" id="txtData" name="txtData" />
+        <label for="txtAnotacao" id="lblAnotacao"> Anotação: </label>
+        <input type="text" id="txtAnotacao" name="txtAnotacao" />
+        <input type="text" id="txtId" name="txtId" hidden />
+        <input type="button" id="btnAddAgenda" name="btnAddAgenda" value="Salvar" onclick="CadastrarAgenda()" />
+        <input type="button" id="btnAtualizaAgenda" name="btnAtualizaAgenda" value="Atualizar" onclick="AtualizarAgenda()" hidden/>
+        <input type="button" id="btnCancela" name="btnCancela" value="Cancelar" onclick="Limpa_Campos()" hidden/>
+    </div>
+
+    <div id="div_Lista">
+        @*<table id="Tabela" width="100%" border="1">
+            <tbody></tbody>
+        </table>*@
+    </div>
+</form>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            //Listar_Tudo();
+            Cria_Lista();
+        });
+
+
+        function CadastrarAgenda() {
+            var form = $('#form').serialize();
+            $.ajax({
+                url: '@Url.Action("CadastrarAgenda")',
+                type: 'POST',
+                data: form,
+                success: function () {
+                    alert('Cadastrado Com Sucesso');
+                    $("#txtData").val("");
+                    $("#txtAnotacao").val("");
+                    Cria_Lista();
+                },
+                error: function () {
+                    alert('Ops! Alguma coisa deu errado');
+                }
+            });
+        }
+
+
+        function AtualizarAgenda() {
+            var form = $('#form').serialize();
+            $.ajax({
+                url: '@Url.Action("Alterar_Agenda")',
+                type: 'POST',
+                data: form,
+                success: function (data) {
+
+                    alert('Anotação Atualizada com Sucesso!!');
+
+                    Limpa_Campos();
+                    Cria_Lista();
+
+
+                    TrazVeiculos();
+                    
+                },
+                error: function (data) {
+                    alert('Errou');
+                }
+            });
+        }
+
+        function Traz_Dados(id) {
+            $.ajax({
+                url: '@Url.Action("Traz_Dados_Agenda")',
+                type: 'POST',
+                data: { id: id },
+                success: function (data) {
+
+                    $('#btnAtualizaAgenda').show();
+                    $('#btnCancela').show();
+
+                    $('#btnAddAgenda').hide();
+
+
+                    $("#txtId").val(data.auxId);
+                    $("#txtData").val(data.auxData);
+                    $("#txtAnotacao").val(data.auxAnotacao);
+                    
+                },
+                error: function (data) {
+                    alert('Errou');
+                }
+            });
+        }
+
+
+        function Delete(id) {
+            $.ajax({
+                url: '@Url.Action("Remover")',
+                type: 'POST',
+                data: { id: id },
+                success: function (data) {
+
+                    Cria_Lista();
+                    
+                },
+                error: function (data) {
+                    alert('Errou');
+                }
+            });
+        }
+
+
+        function Listar_Tudo() {
+            $.ajax({
+                url: '@Url.Action("Lista_Tudo")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    Mostra_tabela(data.Lista);
+                    
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+        function Cria_Lista() {
+            $.ajax({
+                url: '@Url.Action("TrazLista")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    $("#div_Lista").html(data.Tabela);
+                    
+                   
+                    
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+
+
+        function Mostra_tabela(lista) {
+            $("#Tabela tr").remove();
+            //$("#Tabela").html(''); tbm funciona
+            $("#Tabela").append("<tr><th>Data</th><th>Anotação</th><th>Editar</th><th>Excluir</th></tr>");
+            for ($i = 0; $i < lista.length; $i++) {
+                $("#Tabela").append("<tr><td>" + lista[$i].Data + "</td><td>" + lista[$i].Anotacao + "</td><td> <input type=button id=btn_Alt_Agenda name=btn_Alt_Agenda onclick=Traz_Dados(" + lista[$i].Id_Agenda + ") value = Alterar /> </td><td> <input type=button id=btn_Rem_Agenda name=btn_Rem_Agenda onclick=Delete(" + lista[$i].Id_Agenda + ") value = Excluir /> </td></tr>")
+
+                //< td > < input type= button id= btn_Alt_Proprietario name= btn_Alt_Proprietario onclick= Alterar_Proprietario(" + $i + ") value = Alterar /></td >
+            }
+        }
+
+        
+
+        function Limpa_Campos() {
+            $('#btnAtualizaAgenda').hide();
+            $('#btnCancela').hide();
+
+            $('#btnAddAgenda').show();
+
+
+            $("#txtId").val("");
+            $("#txtData").val("");
+            $("#txtAnotacao").val("");
+        }
+    </script>
+    }

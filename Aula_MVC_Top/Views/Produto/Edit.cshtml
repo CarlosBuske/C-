@@ -1,0 +1,19 @@
+﻿@model Aula_MVC_Top.Models.Produto
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Editar</h2>
+<form method="post">
+    @Html.ValidationSummary()
+
+    Id: @Html.TextBoxFor(x => x.Id_produtto)
+    <br />
+    Nome: @Html.TextBoxFor(x => x.Descricao)
+    <br />
+    Quantidade: @Html.TextBoxFor(x => x.Quantidade)
+    <br />
+    Preço de Venda: @Html.TextBoxFor(x => x.Preco_Venda)
+    <br />
+    <input type="submit" value="Alterar" />
+</form>

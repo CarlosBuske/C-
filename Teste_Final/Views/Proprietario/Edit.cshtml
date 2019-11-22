@@ -1,0 +1,327 @@
+﻿
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+<form id="form_edit" method="post">
+    <div id="divEdit">
+        <label for="txtNomeProprietario" id="lblNomeProprietario"> Nome: </label>
+        <input type="text" id="txtNomeProprietario" name="txtNomeProprietario" />
+        <label for="txtCpfProprietario" id="lblCpfProprietario"> Cpf: </label>
+        <input type="text" id="txtCpfProprietario" name="txtCpfProprietario" />
+        <select id="selectSexoProprietario" name="selectSexoProprietario">
+            <option value="M">Masculino</option>
+            <option value="F"> Feminino</option>
+        </select>
+        <input type="checkbox" id="cbxAtivoProprietario" name="cbxAtivoProprietario" />
+        <label for="cbxAtivoProprietario">Ativo</label>
+        <input type="button" id="Editar" name="Editar" value="Editar" onclick="AtualizaProprietario()" />
+    </div>
+    <hr />
+    <h3>Carros do Proprietário</h3>
+    <div id="div_veiculos">
+        <table id="tbl_veiculos" width="100%" border="1">
+            <tbody></tbody>
+        </table>
+    </div>
+
+
+    <input type="button" id="btnMostraAdicionarCarro" name="btnMostraAdicionarCarro" value="Adicionar Carro" onclick="MostraAdicionarCarro()" />
+    <hr />
+</form>
+
+<div id="adicionarCarro" hidden>
+    <form id="formAdicionarCarro" name="formAdicionarCarro" method="post">
+        <h3>Adicionar Carro</h3>
+
+        <label for="txtMontadora">Montadora: </label>
+        <input type="text" id="txtMontadora" name="txtMontadora" />
+
+        <label for="txtModelo">Modelo: </label>
+        <input type="text" id="txtModelo" name="txtModelo" />
+
+        <label for="txtAno">Ano: </label>
+        <input type="text" id="txtAno" name="txtAno" />
+
+        <label for="txtCor">Cor: </label>
+        <input type="text" id="txtCor" name="txtCor" />
+
+        <label for="txtPlaca">Placa: </label>
+        <input type="text" id="txtPlaca" name="txtPlaca" />
+        <input type="text" id="txtId" name="txtId" hidden/>
+        <input type="button" id="btnAdicionarCarro" name="btnAdicionarCarro" value="Adicionar" onclick="AdicionarCarroTemp()" />
+
+        <input type="button" id="btnAtualizaCarroTemp" name="btnAtualizaCarroTemp" value="Atualizar Sessão" onclick="EditCarTemp()" hidden />
+        <input type="button" id="btnAtualizaCarro" name="btnAtualizaCarro" value="Atualizar" onclick="AtualizarCarro()" hidden />
+    </form>
+</div>
+<div id="listaDeCarroTemp"></div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            TrazVeiculos();
+        });
+
+        $(document).ready(function () {
+            $.ajax({
+                url: '@Url.Action("Popula_Campos")',
+                type: 'Get',
+                data: {id:@Session["Id"] },
+                success: function (data) {
+                    $("#txtNomeProprietario").val(data.auxNome);
+                    $("#txtCpfProprietario").val(data.auxCpf);
+                    $("#selectSexoProprietario").val(data.auxSexo);
+                    if (data.auxAtivo == true) {
+                        $("#cbxAtivoProprietario").prop('checked', true);
+                    } else {
+                        $("#cbxAtivoProprietario").val("");
+                    }
+                    
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        });
+
+        
+        function AtualizaProprietario() {
+            var form = $('#form_edit').serialize();
+            $.ajax({
+                url: '@Url.Action("AtualizarProprietario")',
+                type: 'POST',
+                data: form,
+                success: function () {
+
+                    alert('Atualizado com sucesso!!');
+                    var targetUrl = "/Proprietario/Index";
+                    window.location.href = targetUrl;
+                    
+                },
+                error: function (data) {
+                    alert('Errou');
+                }
+            });
+        }
+
+        function AtualizarCarro() {
+            $.ajax({
+                url: '@Url.Action("Alterar_Veiculo")',
+                type: 'POST',
+                data: { id: $("#txtId").val(), Montadora: $("#txtMontadora").val(), Modelo: $("#txtModelo").val(), Ano: $("#txtAno").val(), Cor: $("#txtCor").val(), Placa: $("#txtPlaca").val()  },
+                success: function (data) {
+
+                    alert('Carro Atualizado com Sucesso!!');
+
+                    $('#adicionarCarro').hide();
+                    $('#btnAdicionarCarro').show();
+                    $('#btnAtualizaCarro').hide();
+
+
+                    TrazVeiculos();
+                    
+                },
+                error: function (data) {
+                    alert('Errou');
+                }
+            });
+        }
+
+        
+
+        function EditCarTemp() {
+            
+            $.ajax({
+                url: '@Url.Action("EditCarTemp")',
+                type: 'POST',
+                data: { id: $("#txtId").val(), Montadora: $("#txtMontadora").val(), Modelo: $("#txtModelo").val(), Ano: $("#txtAno").val(), Cor: $("#txtCor").val(), Placa: $("#txtPlaca").val()  },
+                success: function (data) {
+                    $('#listaDeCarroTemp').html(data.ListaCarro);
+                    
+                    
+
+                },
+                error: function () {
+                    alert('não conseguiu adicioner carro na session');
+                }
+            });
+        }
+
+        function Remover_Veic(id) {
+            $.ajax({
+                url: '@Url.Action("Remover_Veiculos")',
+                type: 'POST',
+                data: { id: id },
+                success: function (data) {
+
+                    TrazVeiculos();
+                    
+                },
+                error: function (data) {
+                    alert('Errou');
+                }
+            });
+        }
+
+        function Alterar_Veic(id) {
+            $.ajax({
+                url: '@Url.Action("Traz_Dados_Veiculo")',
+                type: 'POST',
+                data: { id: id },
+                success: function (data) {
+
+                    $('#adicionarCarro').show();
+                    $('#btnAdicionarCarro').hide();
+                    $('#btnAtualizaCarro').show();
+
+
+                    $("#txtId").val(data.auxId);
+                    $("#txtMontadora").val(data.auxMontadora);
+                    $("#txtModelo").val(data.auxModelo);
+                    $("#txtAno").val(data.auxAno);
+                    $("#txtCor").val(data.auxCor);
+                    $("#txtPlaca").val(data.auxPlaca);
+                    
+                },
+                error: function (data) {
+                    alert('Errou');
+                }
+            });
+        }
+
+        
+
+        
+        //Metodos da Sessão
+        function AdicionarCarroTemp() {
+            var form = $('#formAdicionarCarro').serialize();
+            $.ajax({
+                url: '@Url.Action("AdicionarCarroTemp")',
+                type: 'POST',
+                data: form,
+                success: function (data) {
+                    $('#listaDeCarroTemp').html(data.ListaCarro);
+                    
+
+                },
+                error: function () {
+                    alert('não conseguiu adicioner carro na session');
+                }
+            });
+        }
+
+        function EditCarTemp() {
+            
+            $.ajax({
+                url: '@Url.Action("EditCarTemp")',
+                type: 'POST',
+                data: { id: $("#txtId").val(), Montadora: $("#txtMontadora").val(), Modelo: $("#txtModelo").val(), Ano: $("#txtAno").val(), Cor: $("#txtCor").val(), Placa: $("#txtPlaca").val()  },
+                success: function (data) {
+                    $('#listaDeCarroTemp').html(data.ListaCarro);
+                    
+                    
+
+                },
+                error: function () {
+                    alert('não conseguiu adicioner carro na session');
+                }
+            });
+        }
+
+        function SetCamposCarTemp(id) {
+            
+            $.ajax({
+                url: '@Url.Action("SetCamposCarTemp")',
+                type: 'POST',
+                data: { id: id  },
+                success: function (data) {
+
+                    $("#txtMontadora").val(data.auxMontadora);
+                    $("#txtModelo").val(data.auxModelo);
+                    $("#txtAno").val(data.auxAno);
+                    $("#txtCor").val(data.auxCor);
+                    $("#txtPlaca").val(data.auxPlaca);
+                    $("#txtId").val(data.auxIdCarro);
+
+                    $('#btnAdicionarCarro').hide();
+                    $('#btnAtualizaCarro').hide();
+
+                    $("#btnAtualizaCarroTemp").show();
+                    btnAtualizaCarroTemp
+                    
+                    
+
+                },
+                error: function () {
+                    alert('não conseguiu adicioner carro na session');
+                }
+            });
+        }
+
+        
+
+        function DeleteCarTemp(id) {
+            $.ajax({
+                url: '@Url.Action("DeleteCarTemp")',
+                type: 'POST',
+                data: { id: id },
+                success: function (data) {
+
+                    $('#listaDeCarroTemp').html(data.ListaCarro);
+                    
+                },
+                error: function (data) {
+                    alert('Errou');
+                }
+            });
+        }
+
+        
+
+        
+
+
+        function TrazVeiculos() {
+            $.ajax({
+                url: '@Url.Action("Lista_Veiculos")',
+                type: 'GET',
+                data: {  },
+                success: function (data) {
+
+                    //Mostra_Notas.html(data.lista_teste);
+                    $("#tbl_veiculos tr").remove();
+                    Mostra_Veiculos(data.Lista_Carro);
+                    
+                },
+                error: function (data) {
+                    alert('Errou');
+                }
+            });
+        }
+
+        function MostraAdicionarCarro() {
+            $('#adicionarCarro').show();
+            $('#btnAdicionarCarro').show();
+            $('#btnAtualizaCarro').hide();
+            $('#btnAtualizaCarroTemp').hide();
+            $("#txtId").val("");
+            $("#txtMontadora").val("");
+            $("#txtModelo").val("");
+            $("#txtAno").val("");
+            $("#txtCor").val("");
+            $("#txtPlaca").val("");
+        }
+
+        function Mostra_Veiculos(lista) {
+
+            $("#tbl_veiculos").append("<tr><th>Montadora</th><th>Modelo</th><th>Ano</th><th>Cor</th><th>Placa</th><th>Editar</th><th>Excluir</th></tr>");
+            for ($i = 0; $i < lista.length; $i++) {
+                $("#tbl_veiculos").append("<tr><td>" + lista[$i].Montadora + "</td><td>" + lista[$i].Modelo + "</td><td>" + lista[$i].Ano + "</td><td>" + lista[$i].Cor + "</td><td>" + lista[$i].Placa + "</td><td> <input type=button id=btn_Altera_Veic name=btn_Altera_Veic onclick=Alterar_Veic(" + lista[$i].Id_Carro + ") value = Alterar /> </td> <td><input type=button id=btn_Rem_Veic name=btn_Rem_Veic onclick=Remover_Veic(" + lista[$i].Id_Carro + ") value = Excluir /> </td></tr>")
+
+                @*@Html.ActionLink("Editar", "Editar", new { id = lista[$i].Id_Aluno }) *@
+                }
+        }
+    </script>
+    }

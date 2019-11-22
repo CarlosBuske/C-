@@ -1,0 +1,59 @@
+﻿@model IEnumerable<Aula_MVC_Top.Models.Alunos>
+@{
+                
+
+                ViewBag.Title = "Index";
+}
+
+<h2>Lista Academicos</h2>
+
+<br />
+@*@ViewBag.qtd
+    @ViewBag.soma*@
+@using (Html.BeginForm("Index", "Alunos", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-vertical" }))
+{
+    <div class="form-control">
+        @Html.Label("txtNome", "Nome")
+        <br />
+        @Html.TextBox("txtNome", "", new { type = "text" })
+    </div>
+    <div class="form-control">
+        @Html.Label("txSexo", "Sexo")
+        <br />
+        @Html.TextBox("txtSexo", "", new { type = "text" })
+    </div>
+    <div class="form-control">
+        @Html.Label("txOrdem", "Ordenar Por:")
+        <br />
+        @Html.TextBox("txtOrdem", "", new { type = "text" })
+    </div>
+    <div class="form-control">
+        @Html.Label("txQuantidade", "Quantidade:")
+        <br />
+        @Html.TextBox("txtQuantidade", "", new { type = "text" })
+    </div>
+    <div>
+        @Html.TextBox("btnBuscar", "Buscar",  new { type="submit"})
+    </div>
+}
+<table width="100%" border="1">
+    <tr>
+        <th>Id</th>
+        <th>Nome</th>
+        <th>Sexo</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id_Aluno</td>
+            <td>@item.Nome</td>
+            <td>@item.Sexo</td>
+            <td>
+                @foreach (var nota in item.Nota)
+                {
+                    @nota.Materia <br />
+                }
+            </td>
+        </tr>
+    }
+</table>

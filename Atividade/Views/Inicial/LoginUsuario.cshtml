@@ -1,0 +1,41 @@
+﻿@model Atividade.Models.Usuario
+@{
+    ViewBag.Title = "LoginUsuario";
+}
+
+<h2>LoginUsuario</h2>
+
+
+
+
+
+@using (Html.BeginForm("LoginAdm", "Inicial", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    @Html.Label("Login")
+    <br />
+    @Html.TextBoxFor(x => x.Login)
+    <br />
+    @Html.ValidationMessageFor(x => x.Login)
+    <br />
+
+    @Html.Label("Senha")
+    <br />
+    @Html.TextBoxFor(x => x.Senha)
+    <br />
+    @Html.ValidationMessageFor(x => x.Senha)
+    <br />
+    <input type="submit" value="Entrar como Administrador" />
+}
+@using (Html.BeginForm("LoginUsuario", "Inicial", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <input type="submit" value="Entrar Como usuario" />
+}
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+}
+
+

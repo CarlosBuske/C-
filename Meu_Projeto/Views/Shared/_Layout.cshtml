@@ -1,0 +1,25 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    @Html.Partial("_Header")
+    <div style="padding-top:5%; padding-left:13%; position:fixed">
+        @RenderBody()
+    </div>
+    @if (IsSectionDefined("Lateral"))
+    {
+        @RenderSection("Lateral")
+
+    }
+    @if (IsSectionDefined("Rodape"))
+    {
+        @RenderSection("Rodape")
+
+    }
+</body>
+</html>

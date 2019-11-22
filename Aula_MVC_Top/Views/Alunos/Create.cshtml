@@ -1,0 +1,27 @@
+﻿@model Aula_MVC_Top.Models.Alunos
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Novo Aluno</h2>
+<form method="post">
+    @Html.LabelFor(x => x.Nome)
+    @Html.TextBoxFor(x => x.Nome)
+    <br />
+    @Html.LabelFor(x => x.Sexo)
+    @Html.TextBoxFor(x => x.Sexo)
+    <br />
+    @Html.LabelFor(x => x.Excluido)
+    <label>Sim</label>@Html.RadioButtonFor(x => x.Excluido, "true")
+    <label>Não</label>@Html.RadioButtonFor(x => x.Excluido, "false")
+    <br />
+    @Html.LabelFor(x => x.Ativo)
+    <label>Sim</label>@Html.RadioButtonFor(x => x.Ativo, "true")
+    <label>Não</label>@Html.RadioButtonFor(x => x.Ativo, "false")
+    <br />
+    <label>Materia Favorita</label>
+    @Html.DropDownList("Id_Materia", (IEnumerable<SelectListItem>)ViewBag.Materia, "")
+    <br />
+    @Html.TextBox("btnSalvar", "Salvar", new { type = "submit" })
+</form>
+

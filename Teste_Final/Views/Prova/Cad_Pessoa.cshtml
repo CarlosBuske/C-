@@ -1,0 +1,42 @@
+﻿
+@{
+    ViewBag.Title = "Cad_Pessoa";
+}
+
+<h2>Cadastrar Pessoa</h2>
+
+
+<form method="post" id="form" name="form">
+    <label for="txtNomePessoa" id="lblNomePessoao">Nome: </label>
+    <input type="text" id="txtNomePessoa" name="txtNomePessoa" />
+    <input type="button" id="btnCadastrarPessoa" name="btnCadastrarPessoa" value="Cadastrar Pessoa" onclick="CadastrarPessoa()" />
+    <input type="button" id="btnVoltar" name="btnVoltar" value="Voltar" onclick="Voltar()" />
+</form>
+
+@section scripts{
+    <script>
+        function CadastrarPessoa() {
+            var form = $('#form').serialize();
+            $.ajax({
+                url: '@Url.Action("CadastrarPessoa")',
+                type: 'POST',
+                data: form,
+                success: function () {
+                    alert('Cadastrado Com Sucesso');
+                    var targetUrl = "/Prova/List_Pessoas";
+                    window.location.href = targetUrl;
+                },
+                error: function () {
+                    alert('Ops! Alguma coisa deu errado');
+                }
+            });
+        }
+
+        function Voltar() {
+            var targetUrl = "/Prova/List_Pessoas";
+            window.location.href = targetUrl;
+        }
+
+        
+    </script>
+}

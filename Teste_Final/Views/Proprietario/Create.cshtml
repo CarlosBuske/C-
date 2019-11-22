@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Adicionar Proprietario</h2>
+
+<form method="post" id="form" name="form">
+    <label for="txtNomeProprietario" id="lblNomeProprietario">Nome: </label>
+    <input type="text" id="txtNomeProprietario" name="txtNomeProprietario" />
+    <label for="txtCpfProprietario" id="lblCpfProprietario">CPF: </label>
+    <input type="text" id="txtCpfProprietario" name="txtCpfProprietario" />
+    <select id="selectSexoProprietario" name="selectSexoProprietario">
+        <option value="M">Masculino</option>
+        <option value="F">Feminino</option>
+    </select>
+    <input type="checkbox" id="cbxAtivoProprietario" name="cbxAtivoProprietario" checked />
+    <label for="cbxAtivoProprietario">Ativo</label>
+    <input type="button" id="btnCadastrarProprietario" name="btnCadastrarProprietario" value="Cadastrar Proprietario" onclick="CadastrarProprietario()" />
+</form>
+
+@section scripts{
+    <script>
+        function CadastrarProprietario() {
+            var form = $('#form').serialize();
+            $.ajax({
+                url: '@Url.Action("CadastrarProprietario")',
+                type: 'POST',
+                data: form,
+                success: function () {
+                    alert('Cadastrado Com Sucesso');
+                    var targetUrl = "/Proprietario/Index";
+                    window.location.href = targetUrl;
+                },
+                error: function () {
+                    alert('Ops! Alguma coisa deu errado');
+                }
+            });
+        }
+    </script>
+}

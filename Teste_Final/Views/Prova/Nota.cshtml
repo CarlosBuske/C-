@@ -1,0 +1,153 @@
+﻿
+@{
+    ViewBag.Title = "Nota";
+}
+
+<h2>Nota</h2>
+
+<form method="post" id="form">
+    <div id="divNota">
+        <label for="txtCliente" id="lblCliente"> Cliente: </label>
+        <input type="text" id="txtCliente" name="txtCliente" readonly />
+        <label for="txtValorT" id="lblValorT"> Valor Total: </label>
+        <input type="text" id="txtValorT" name="txtValorT" readonly />
+
+        <input type="button" id="btnSalvar" name="btnSalvar" value="Salvar" onclick="Salvar()" />
+        <input type="button" id="btnCancela" name="btnCancela" value="Cancelar" onclick="CancelarT()" hidden />
+    </div>
+
+    <div id="ItensNota">
+
+    </div>
+
+
+    <hr />
+    <input type="button" id="btnAdd" name="btnAdd" value="Add Produto" onclick="AddProduto()" />
+    <input type="button" id="btnCancela" name="btnCancela" value="Cancelar" onclick="Cancelar()"  hidden />
+    <div id="AddProduto" hidden>
+
+
+
+    </div>
+
+</form>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            PopulaCampos();
+            AddProd();
+        });
+
+
+        
+
+        function AddProduto() {
+            $('#AddProduto').show();
+        }
+
+        
+
+
+        function PopulaCampos() {
+            $.ajax({
+                url: '@Url.Action("PopulaCamposNota")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    $('#txtCliente').val(data.auxNome);
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+        function Salvar() {
+            var form = $('#form').serialize();
+            $.ajax({
+                url: '@Url.Action("Salvar")',
+                type: 'POST',
+                data: form,
+                success: function (data) {
+                    alert("Salvou");
+                    $('#txtValorT').val("");
+                    var targetUrl = "/Prova/List_Pessoas";
+                    window.location.href = targetUrl;
+
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+        function PopulaCamposProdutos() {
+            $.ajax({
+                url: '@Url.Action("PopulaCamposProdutos")',
+                type: 'POST',
+                data: { id: $('#Produtos').val() },
+                success: function (data) {
+                    $('#txtDescricao').val(data.auxDescricao);
+                    $('#txtValorU').val(data.auxValorU);
+                    $('#txtQuantidade').val(1);
+                    Soma();
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+        function AddProd() {
+            $.ajax({
+                url: '@Url.Action("TrazProdutos")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    $('#AddProduto').html(data.Produtos);
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+        function Soma() {
+            $('#txtValorPT').val(parseInt($('#txtQuantidade').val() * parseFloat($('#txtValorU').val())));
+        }
+
+
+        function AdicionarItemNota(id) {
+            $.ajax({
+                url: '@Url.Action("AdicionarItemNota")',
+                type: 'POST',
+                data: { id: id, Nome: $('#txtDescricao').val(), ValorU: $('#txtValorU').val(), Quantidade: $('#txtQuantidade').val(), ValorT: $('#txtValorPT').val()   },
+                success: function (data) {
+                    $('#ItensNota').html(data.TblItens);
+
+                    $('#txtValorT').val(data.auxValor);
+
+                    $('#AddProduto').hide();
+
+                    $('#txtDescricao').val("");
+
+                    $('#txtValorU').val("");
+
+                    $('#txtQuantidade').val("");
+
+                    $('#txtValorPT').val("");
+
+                    $('#Produtos').val(0);
+
+
+                },
+                error: function () {
+                    alert('não conseguiu adicioner carro na session');
+                }
+            });
+        }
+        
+        
+    </script>
+    
+    }

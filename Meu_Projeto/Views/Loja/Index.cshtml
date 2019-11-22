@@ -1,0 +1,48 @@
+﻿@model Meu_Projeto.Models.Produtos
+@{
+    ViewBag.Title = "Index";
+}
+
+@*<h2>Index</h2>
+    <h2>@ViewBag.Teste</h2>*@
+<div>
+    @{
+        if (Session["Logado"].Equals("Admin"))
+        {
+
+            <h1>Olá Admin</h1>
+
+        }
+        else
+        {
+            <h1>Bem Vindo a Nossa Loja!</h1>
+        }
+    }
+
+    @using (Html.BeginForm("Index", "Loja", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+
+        @Html.TextBox("btnSair", "Sair", new { type = "submit", @class = "btn btn-primary" })
+
+    }
+</div>
+@section Lateral{
+    @{ if (Session["Logado"].Equals("Admin"))
+        {
+            @Html.Partial("_LateralAdmin")
+        }
+        else
+        {
+            @Html.Partial("_LateralUser")
+        }
+    }
+
+}
+@section Rodape{
+    @{ if (Session["Logado"].Equals("Usuario"))
+        {
+            @Html.Partial("_Footer")
+        }
+    }
+    }
+

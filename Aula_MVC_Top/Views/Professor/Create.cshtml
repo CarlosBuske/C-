@@ -1,0 +1,79 @@
+﻿
+@model Aula_MVC_Top.Models.Professor
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create</h2>
+
+@*@using(Html.BeginForm("Create", "Professor", FormMethod.Post))*@
+<form method="post">
+    @Html.LabelFor(x => x.sexo)
+    <br />
+    @Html.TextBoxFor(x => x.sexo)
+    <br />
+    @Html.ValidationMessageFor(x => x.sexo)
+    <br />
+
+    @Html.LabelFor(x => x.Nome)
+    <br />
+    @Html.TextBoxFor(x => x.Nome)
+    <br />
+    @Html.ValidationMessageFor(x => x.Nome)
+    <br />
+
+    @Html.LabelFor(x => x.Sobrenome)
+    <br />
+    @Html.TextBoxFor(x => x.Sobrenome)
+    <br />
+    @Html.ValidationMessageFor(x => x.Sobrenome)
+    <br />
+
+    @Html.LabelFor(x => x.Idade)
+    <br />
+    @Html.TextBoxFor(x => x.Idade)
+    <br />
+    @Html.ValidationMessageFor(x => x.Idade)
+    <br />
+
+    @Html.LabelFor(x => x.Senha)
+    <br />
+    @Html.TextBoxFor(x => x.Senha)
+    <br />
+    @Html.ValidationMessageFor(x => x.Senha)
+    <br />
+
+    @Html.LabelFor(x => x.Confirma_Senha)
+    <br />
+    @Html.TextBoxFor(x => x.Confirma_Senha)
+    <br />
+    @Html.ValidationMessageFor(x => x.Confirma_Senha)
+    <br />
+
+    @Html.LabelFor(x => x.Cpf)
+    <br />
+    @Html.TextBoxFor(x => x.Cpf)
+    <br />
+    @Html.ValidationMessageFor(x => x.Cpf)
+
+
+
+    <br />
+    <input type="submit" value="Salvar" />
+</form>
+
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+}
+
+@*, new { @id = "mascara_senha" }
+var $j = jQuery.noConflict();
+
+    $j(function () {
+    $j("#mascarar_cnpj").mask("99.999.999/9999-99");
+    });*@
+

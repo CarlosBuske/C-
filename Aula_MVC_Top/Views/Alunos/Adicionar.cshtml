@@ -1,0 +1,148 @@
+﻿
+@{
+    ViewBag.Title = "Adicionar";
+}
+
+<h2>Adicionar Aluno</h2>
+<form method="post">
+    Nome: <input type="text" id="txt_nome" name="txt_nome" />
+    Sexo: <input type="text" id="txt_sexo" name="txt_sexo" />
+    <input type="submit" value="Salvar" />
+    <hr />
+    <input type="button" id="mostra_div" value="Nova Nota" onclick="Nova_Nota()" />
+    <div id="div_notas" style="display:none">
+        Nome Materia: <input type="text" id="txt_nome_materia" />
+        Nota 1: <input type="text" id="txt_nota_1" />
+        Nota 2: <input type="text" id="txt_nota_2" />
+        Nota 3: <input type="text" id="txt_nota_3" />
+        Nota 4: <input type="text" id="txt_nota_4" />
+        Id: <input type="text" id="txt_id"  hidden/>
+        <input type="button" id="add_materia" name="add_materia" onclick="Add_Materia()" value="Adicionar" />
+        <input type="button" id="alterar_materia" name="alterar_materia" onclick="Alterar_Nota_Session()" value="Alterar" hidden />
+    </div>
+
+    <div id="tb_notas">
+
+    </div>
+    <table id="tb_notas" width="100%" border="1">
+        <tbody></tbody>
+    </table>
+</form>
+@section scripts{
+    <script>
+        var lista_todos;
+        //$(document).ready(function () {
+        //    $("#Nota").hide();
+        //});
+        function Nova_Nota() {
+            $("#div_notas").show();
+            $("#add_materia").show();
+            $("#alterar_materia").hide();
+        }
+
+
+        function Salvar_Aluno() {
+
+        }
+
+        function Mostra_Notas(lista_nota) {
+            //$("#div_notas tbody tr").remove();
+            lista_todos = lista_nota;
+            $("#tb_notas").append("<tr><th>Materia</th><th>Nota I</th><th>Nota II</th><th>Nota III</th><th>Nota IV</th><th>Editar</th><th>Excluir</th></tr>")
+            for ($i = 0; $i < lista_nota.length; $i++) {
+                $("#tb_notas").append("<tr><td>" + lista_nota[$i].Materia + "</td><td>" + lista_nota[$i].Nota_I + "</td><td>" + lista_nota[$i].Nota_II + "</td><td>" + lista_nota[$i].Nota_III + "</td><td>" + lista_nota[$i].Nota_IV + "<input type=button id=btn_Alt_Nota name=btn_Alt_Nota onclick=Alterar_Nota(" + $i + ") value=Alterar /> <input type=button id=btn_Rem_Nota name=btn_Rem_Nota onclick=Remover_Nota(" + $i +") value=Excluir /> </td></tr>")
+            }
+        }
+
+
+
+        function Add_Materia() {
+            $.ajax({
+                url: '@Url.Action("Adicionar_Nota")',
+                type: 'POST',
+                data: { materia: $("#txt_nome_materia").val(), nota1: $("#txt_nota_1").val(), nota2: $("#txt_nota_2").val(), nota3: $("#txt_nota_3").val(), nota4: $("#txt_nota_4").val() },
+                success: function (data) {
+
+                    //Mostra_Notas.html(data.lista_teste);
+                    $("#tb_notas tr").remove();
+                    Mostra_Notas(data.lista);
+                    lista_todos = data.lista;
+                    //$("#tb_notas").html(data.lista_teste)
+                    //alert('Nota Cadastrada com sucesso');
+                    $("#div_notas").hide();
+                    $("#txt_nome_materia").val("");
+                    $("#txt_nota_1").val("");
+                    $("#txt_nota_2").val("");
+                    $("#txt_nota_3").val("");
+                    $("#txt_nota_4").val("");
+                },
+                error: function (data) {
+                    alert('Errou');
+                }
+            });
+        }
+
+        function Alterar_Nota() {
+            @*$.ajax({
+                url: '@Url.Action("Alterar_Nota")',
+                type: 'POST',
+                data: { id_nota: lista_todos[(arguments[0])].id_nota, materia: $("#txt_nome_materia").val(), nota1: $("#txt_nota_1").val(), nota2: $("#txt_nota_2").val(), nota3: $("#txt_nota_3").val(), nota4: $("#txt_nota_4").val() },
+                success: function (data) {
+
+                  
+                    $("#div_notas").hide();
+                },
+                error: function (data) {
+                    alert('Errou');
+                }
+            });*@
+
+            $("#div_notas").show();
+            $("#add_materia").hide();
+            $("#alterar_materia").show();
+            $("#txt_id").show();
+            $("#txt_id").val(lista_todos[(arguments[0])].Id_Nota);
+            $("#txt_nome_materia").val(lista_todos[(arguments[0])].Materia);
+            $("#txt_nota_1").val(lista_todos[(arguments[0])].Nota_I);
+            $("#txt_nota_2").val(lista_todos[(arguments[0])].Nota_II);
+            $("#txt_nota_3").val(lista_todos[(arguments[0])].Nota_III);
+            $("#txt_nota_4").val(lista_todos[(arguments[0])].Nota_IV);
+        }
+
+        function Alterar_Nota_Session(){
+             $.ajax({
+                url: '@Url.Action("Alterar_Nota")',
+                type: 'POST',
+                 data: { id_nota: $("#txt_id").val(), materia: $("#txt_nome_materia").val(), nota1: $("#txt_nota_1").val(), nota2: $("#txt_nota_2").val(), nota3: $("#txt_nota_3").val(), nota4: $("#txt_nota_4").val() },
+                success: function (data) {
+
+                    $("#tb_notas tr").remove();
+                    Mostra_Notas(data.lista);
+                    $("#div_notas").hide();
+                    $("#add_materia").show();
+                    $("#alterar_materia").hide();
+                },
+                error: function (data) {
+                    alert('Errou');
+                }
+            });
+        }
+
+        function Remover_Nota(){
+             $.ajax({
+                url: '@Url.Action("Delete")',
+                type: 'POST',
+                 data: { id: lista_todos[(arguments[0])].Id_Nota },
+                success: function (data) {
+
+                    $("#tb_notas tr").remove();
+                    Mostra_Notas(data.lista);
+                    $("#div_notas").hide();
+                },
+                error: function (data) {
+                    alert('Errou');
+                }
+            });
+        }
+    </script>
+    }

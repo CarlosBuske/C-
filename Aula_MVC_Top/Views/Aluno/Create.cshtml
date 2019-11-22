@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+<form action="Create" method="post">
+    <h2>Novo Cliente</h2>
+    <table>
+        <tr>
+            <td>ID</td>
+            <td><input type="text" id="txt_id" name="txt_id" value="@ViewBag.Id" /></td>
+            <td>Nome</td>
+            <td><input type="text" id="txt_nome" name="txt_nome" value="@ViewBag.Nome" /></td>
+            <td>Idade</td>
+            <td><input type="text" id="txt_idade" name="txt_idade" value="@ViewBag.Idade" /></td>
+
+            <td>
+                <input type="hidden" id="lista_alunos" name="lista_alunos" value="@ViewData["lista_alunos"]"/>
+                <input type="submit" id="btn_salvar" name="btn_salvar" value="Salvar" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="6">@ViewBag.Erro</td>
+        </tr>
+        <tr>
+            <td colspan="6">@ViewData["lista_alunos"]</td>
+        </tr>
+    </table>
+
+    
+</form>
+

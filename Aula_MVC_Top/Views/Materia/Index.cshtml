@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+<form id="form_id">
+    @*<iframe src="http://www.unifacear.edu.br" height="500" width="100%"></iframe>
+        <iframe src="http://www.unifacear.edu.br" height="500" width="100%"></iframe>*@
+
+
+    <div> UNIFacear - Araucaria - PR</div>
+    <div id="div_curso">CURSO DE SISTEMAS DE INFORMAÇÃO</div>
+    Nome do Aluno: <input class="aluno" type="text" id="nome" name="nome" />
+    <br />
+    Idade do Aluno: <input class="aluno" type="number" id="idade" name="idade" />
+    <br />
+
+    <input type="button" id="btn_evento" name="btn_evento" onclick="Vermelho()" value="Vermelho" />
+    <br />
+    <input type="button" id="btn_verde" name="btn_evento" onclick="Verde()" value="Verde" />
+    <br />
+    <input type="button" id="btn-abre_div" value="Mostrar DIV" onclick="Mostra_Div()" />
+    <br />
+    <input type="button" id="btn-esconde_div" value="Esconde DIV" onclick="Esconde_Div()" />
+    <br />
+    <div id="div_texto">
+        Aqui estão os piores
+    </div>
+    <hr />
+    <br />
+    <div id="Ola_Mundo">
+        <h2>Olá Mundo</h2>
+
+    </div>
+    <input type="button" id="btn_faz_tudo" value="Mostra/Esconde" onclick="Faz_tudo()" />
+
+</form>
+
+@section scripts{
+    
+    <script>
+        //executa somente depois que carregou todo o html
+        $(document).ready(function () {
+           // alert('Olá Mundo');
+            $("#div_texto").hide();
+        });
+
+        function Vermelho() {
+            $("#div_curso").css("color", "red")
+            $("#form_id").css("background-color", "orange").css("font-size", "25px")
+        }
+
+        function Verde() {
+
+            
+
+            $("#div_curso").css("color", "green")
+            $("#btn_verde").css("background-color", "green")
+            $("#form_id").css("background-color", "orange").css("font-size", "12px")
+
+
+
+            $("input.aluno").css("background-color", "green")
+        }
+
+        function Mostra_Div() {
+            $("#div_texto").show();
+            $("#btn-esconde_div").show();
+        }
+        function Esconde_Div() {
+            $("#div_texto").hide();
+            $("#btn-esconde_div").hide();
+        }
+        function Faz_tudo() {
+            $("#Ola_Mundo").slideToggle();
+        }
+    </script>
+    }
+

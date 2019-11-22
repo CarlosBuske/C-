@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "DetalhesNota";
+}
+
+<h2>DetalhesNota</h2>
+
+<form method="post" id="form">
+    <div id="divNota">
+        <label for="txtCliente" id="lblCliente"> Cliente: </label>
+        <input type="text" id="txtCliente" name="txtCliente" readonly />
+        <label for="txtValorT" id="lblValorT"> Valor Total: </label>
+        <input type="text" id="txtValorT" name="txtValorT" readonly />
+        <label for="txtData" id="lblData"> Data: </label>
+        <input type="text" id="txtData" name="txtData" readonly />
+
+    </div>
+
+    <div id="ItensNota">
+
+    </div>
+    <br />
+    <input type="button" id="Voltar" name="Voltar" value="Voltar" onclick="Sair()"/>
+
+</form>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            PopulaNota();
+            Cria_Lista_Nota();
+        });
+
+        function Sair() {
+            var targetUrl = "/Prova/Lista_Nota";
+            window.location.href = targetUrl;
+        }
+
+        function PopulaNota() {
+            $.ajax({
+                url: '@Url.Action("PopulaNota")',
+                type: 'GET',
+                data: {},
+                success: function (data) {
+                    $('#txtCliente').val(data.auxNome);
+                    $('#txtValorT').val(data.auxValorT);
+                    $('#txtData').val(data.Data);
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+        
+        function Cria_Lista_Nota() {
+            $.ajax({
+                url: '@Url.Action("Cria_Lista_Nota")',
+                type: 'GET',
+                data: { },
+                success: function (data) {
+                    $('#ItensNota').html(data.TabelaNota);
+                    
+                },
+                error: function () {
+                    alert('não conseguiu adicioner carro na session');
+                }
+            });
+        }
+        
+    </script>
+
+}

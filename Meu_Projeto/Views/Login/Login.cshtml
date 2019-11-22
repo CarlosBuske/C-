@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Tela de Login</h2>
+<div>
+    <div>
+        @using (Html.BeginForm("Login", "Login", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            @Html.ValidationSummary(true)
+            <div>
+                @Html.Label("lblLogin", "Login")
+                @Html.TextBox("txtLogin", (string)ViewBag.Login, new { type = "text" })
+            </div>
+            <div style="margin-top:5px">
+                @Html.Label("lblSenha", "Senha")
+                @Html.TextBox("txtSenha", (string)ViewBag.Senha, new { type = "text" })
+            </div>
+            <div>
+                @Html.CheckBox("cbxLembrar")
+                @Html.Label("lblLembrar", "Lembrar-me");
+            </div>
+            <div style="margin-top:5px">
+                @Html.TextBox("btnEntrar", "Entrar", new { type = "submit" })
+            </div>
+        }
+    </div>
+</div>
+
+
+

@@ -1,0 +1,130 @@
+﻿
+@{
+    ViewBag.Title = "Outros_Comandos_Jquery";
+}
+
+<h2>Outros_Comandos_Jquery</h2>
+
+<form>
+    <table>
+        <tr>
+            <td>Nome: <input type="text" id="txt_nome" name="txt_nome" /></td>
+            <td>Sobrenome: <input type="text" id="txt_sobrenome" name="txt_sobrenome" /></td>
+            <td><input type="button" id="mostra_nome" value="Mostra Nome" onclick="Mostra_Nome()" /></td>
+            <td><input type="button" id="mostra_nome_msg" value="Mostra Nome MSG" onclick="Mostra_Nome_MSG()" /></td>
+            <td><input type="button" id="desabilita_campo" value="Desabilita" onclick="Desabilita_Campo()" /></td>
+            <td><input type="button" id="Abilita_campo" value="Abilita" onclick="Abilita_Campo()" /></td>
+            <td>Nome Completo: <input type="text" id="txt_nome_completo" name="txt_nome_completo" disabled /> </td>
+        </tr>
+    </table>
+    <hr />
+    <input type="button" id="btn_mostra_texto" value="Mostra Texto" onclick="Mostra_Texto()" />
+    <br />
+    <div id="minha_div">
+
+    </div>
+
+    <input type="button" id="btn_mostra_hora" value="Mostra Hora" onclick="Busca_Dados()" />
+    <br />
+
+    <input type="button" id="btn_mostra_hora" value="Mostra Qutd" onclick="Busca_Qtd()" />
+    <br />
+</form>
+
+@section scripts{
+    <script>
+        function Busca_Dados() {
+            $.ajax({
+                url: '@Url.Action("Retorna_Hora")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+
+                    alert(data.hora);
+                    
+
+                },
+                error: function (data) {
+                    alert('Errou');
+                }
+            });
+        }
+
+        function Busca_Qtd() {
+            $.ajax({
+                url: '@Url.Action("Retorna_Qtd_Letras")',
+                type: 'POST',
+                data: { nome: $("#txt_nome").val(), sobrenome: $("#txt_sobrenome").val() },
+                success: function (data) {
+
+                    alert(data.qtd);
+                    
+
+                },
+                error: function (data) {
+                    alert('Errou');
+                }
+            });
+        }
+
+        function Mostra_Numero() {
+            alert(1);
+        }
+
+        function Mostra_Hora() {
+            var data_hora = new Date();
+            var texto = "<h1 style='color:red'>" + data_hora.getHours() + ":" + data_hora.getMinutes() + ":" + data_hora.getSeconds() + "</h1> "
+            $("#minha_div").html(texto);
+        }
+
+
+        function Mostra_Texto() {
+            var texto = "<h1 style='color:red'>Deu Certo</h1>"
+            $("#minha_div").html(texto);
+        }
+
+        //executa somente depois que carregou todo o html
+        $(document).ready(function () {
+            //executa uma nica vez
+            //window.setTimeout('Mostra_Numero()', 5000)
+
+            //executa nos intervalos de tempo
+            //window.setInterval('Mostra_Numero()', 3000)
+
+            window.setInterval('Mostra_Hora()', 1000)
+
+            //$("#txt_nome").on("keyup", function () {
+            //    $("#txt_sobrenome").val($("#txt_nome").val());
+            //});
+
+            //$("#txt_sobrenome").keyup(function () {
+            //    alert();
+            //})
+        });
+        function Mostra_Nome_MSG() {
+            alert($("#txt_nome").val() + " " + $("#txt_sobrenome").val());
+        }
+        function Desabilita_Campo() {
+            $("#txt_nome").attr("readonly", true)
+            $("#txt_sobrenome").attr("disabled", true)
+        }
+        function Abilita_Campo() {
+            $("#txt_nome").attr("readonly", false)
+            $("#txt_sobrenome").attr("disabled", false)
+        }
+
+        function Mostra_Nome() {
+            //pega o tesxto que ta dentro do campo
+            //alert($("#txt_nome").val() +" "+ $("#txt_sobrenome").val());
+
+            //$("#txt_sobrenome").val("Olá Mundo")
+            //$("#txt_sobrenome").val($("#txt_nome").val());
+
+            $("#txt_nome_completo").val($("#txt_nome").val() + " " + $("#txt_sobrenome").val());
+            $("#mostra_nome_msg").trigger("onclick")
+            $("#txt_nome").val(" ")
+            $("#txt_sobrenome").val(" ")
+            
+        }
+    </script>
+    }

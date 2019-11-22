@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "Lista_Alunos";
+}
+
+<h2>Lista Alunos</h2>
+
+<form>
+    <div id="pesquisa">
+        Nome: <input type="text" id="txt_nome" name="txt_nome" />
+        Sexo: <input type="text" id="txt_sexo" name="txt_sexo" />
+
+        <input type="button" id="busca" value="Buscar" onclick="Lista_Alunos()" />
+    </div>
+                
+
+            
+    <div id="div_alunos">
+
+    </div>
+
+    <div id="div_table">
+        <table id="Tabela2">
+
+        </table>
+    </div>
+</form>
+<div id="tbl_alunos">
+
+</div>
+
+
+
+
+        <script>
+            function mostra_tabela(lista) {
+                for ($i = 0; $i < lista.length; $i++) {
+                    $("#tbl_alunos").append("<tr><td>" + lista[$i].Nome + "</td></tr>")
+                }
+            }
+
+            function Mostra_tabela_jeito2(lista) {
+                for ($i = 0; $i < lista.length; $i++) {
+                    var aux = lista[$i].Id_Aluno;
+                    $("#Tabela2").append("<tr><td>" + lista[$i].Nome + "</td><td>" + lista[$i].Sexo + "</td><td>"+aux+"</td></tr>")
+                    @*@Html.ActionLink("Editar", "Editar", new { id = lista[$i].Id_Aluno })*@
+                }
+            }
+           
+
+        function Lista_Alunos() {
+            $.ajax({
+                url: '@Url.Action("Retorna_Lista")',
+                type: 'POST',
+                data: { nome: $('#txt_nome').val(), sexo: $('#txt_sexo').val() },
+                success: function (data) {
+
+                    $("#div_alunos").html(data.lista_alunos);
+                    Mostra_tabela_jeito2(data.lista_alunos);
+
+
+                },
+                error: function (data) {
+                    alert('Errou');
+                }
+            });
+    }
+   </script>
+  

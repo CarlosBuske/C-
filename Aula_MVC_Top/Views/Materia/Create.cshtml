@@ -1,0 +1,24 @@
+﻿@model Aula_MVC_Top.Models.Materia
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Nova Materia</h2>
+<form>
+    @Html.LabelFor(x => x.Descricao)
+    @Html.TextBoxFor(x => x.Descricao)
+    <br />
+    @Html.LabelFor(x => x.Conteudo)
+    @Html.TextAreaFor(x => x.Conteudo, new { rows = 3 })
+    <br />
+    @Html.LabelFor(x => x.Disponivel)
+    @Html.CheckBoxFor(x => x.Disponivel)
+    <br />
+    @Html.LabelFor(x => x.Excluido)
+    <label>Sim</label>@Html.RadioButtonFor(x => x.Excluido, "true")
+    <label>Não</label>@Html.RadioButtonFor(x => x.Excluido, "false")
+    <br/>
+    <label>Alunos</label>
+    @Html.DropDownList("Id_Aluno", (IEnumerable<SelectListItem>)ViewBag.Alunos, "Alunos")
+
+</form>

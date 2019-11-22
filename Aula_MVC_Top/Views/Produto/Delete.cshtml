@@ -1,0 +1,20 @@
+﻿@model Aula_MVC_Top.Models.Produto
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Deletar</h2>
+<form method="post">
+    @Html.ValidationSummary()
+
+    Id: @Html.TextBoxFor(x => x.Id_produtto)
+    <br />
+    Nome: @Html.TextBoxFor(x => x.Descricao)
+    <br />
+    Quantidade: @Html.TextBoxFor(x => x.Quantidade)
+    <br />
+    Preço de Venda: @Html.TextBoxFor(x => x.Preco_Venda)
+    <br />
+    Deseja Realmente excluir ?
+    <input type="submit" value="Sim, Excluir" />
+</form>

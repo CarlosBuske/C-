@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "Cad_Produto";
+}
+
+<h2>Cadastrar Produto</h2>
+
+
+<form method="post" id="form" name="form">
+    <label for="txtNomeProduto" id="lblNomeProduto">Descrição: </label>
+    <input type="text" id="txtNomeProduto" name="txtNomeProduto" />
+    <label for="txtValor" id="lblValor">Valor: </label>
+    <input type="text" id="txtValor" name="txtValor" />
+
+
+    <input type="button" id="btnCadastrarProduto" name="btnCadastrarProduto" value="Cadastrar Produto" onclick="CadastrarProduto()" />
+    <input type="button" id="btnVoltar" name="btnVoltar" value="Voltar" onclick="Voltar()" />
+    <div id="div_Lista">
+
+    </div>
+</form>
+
+@section scripts{
+    <script>
+         $(document).ready(function () {
+            //Listar_Tudo();
+            Cria_Lista();
+        });
+
+        function Cria_Lista() {
+            $.ajax({
+                url: '@Url.Action("TrazListaProduto")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    $("#div_Lista").html(data.Tabela);
+                    
+                   
+                    
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+        function CadastrarProduto() {
+            var form = $('#form').serialize();
+            $.ajax({
+                url: '@Url.Action("CadastrarProduto")',
+                type: 'POST',
+                data: form,
+                success: function () {
+                    alert('Cadastrado Com Sucesso');
+                    $("#txtNomeProduto").val('');
+                    $("#txtValor").val('');
+                    Cria_Lista();
+                    
+                },
+                error: function () {
+                    alert('Ops! Alguma coisa deu errado');
+                }
+            });
+        }
+
+        function Voltar() {
+            var targetUrl = "/Prova/List_Pessoas";
+            window.location.href = targetUrl;
+        }
+    </script>
+}

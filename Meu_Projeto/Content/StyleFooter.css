@@ -1,0 +1,10 @@
+﻿.Footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: dimgray;
+    color: white;
+    text-align: center;
+    justify-content: center;
+}

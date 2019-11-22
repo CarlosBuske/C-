@@ -1,0 +1,60 @@
+﻿@model Aula_MVC_Top.Models.Vendedor
+@{
+    ViewBag.Title = "Alterar";
+}
+
+<h2>Alterar</h2>
+
+<form method="post">
+    @Html.Label("Codigo")
+    <br />
+    @Html.TextBoxFor(x => x.cod)
+    <br />
+    @Html.ValidationMessageFor(x => x.cod)
+    <br />
+
+    @Html.Label("Nome")
+    <br />
+    @Html.TextBoxFor(x => x.Nome)
+    <br />
+    @Html.ValidationMessageFor(x => x.Nome)
+    <br />
+
+    @Html.Label("Salario Fixo")
+    <br />
+    @Html.TextBoxFor(x => x.salario_fixo)
+    <br />
+    @Html.ValidationMessageFor(x => x.salario_fixo)
+    <br />
+
+    @Html.Label("Faixa Comissão")
+    <br />
+    @Html.TextBoxFor(x => x.faixa_comissao)
+    <br />
+    @Html.ValidationMessageFor(x => x.faixa_comissao)
+    <br />
+
+    @Html.Label("Sexo")
+    <br />
+    @Html.TextBoxFor(x => x.sexo)
+    <br />
+    @Html.ValidationMessageFor(x => x.sexo)
+    <br />
+
+
+
+    <br />
+    <input type="submit" value="Salvar" />
+
+</form>
+
+@using (Html.BeginForm("Sair", "Teste", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <input type="submit" value="Sair" />
+}
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+}

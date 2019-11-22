@@ -1,0 +1,41 @@
+﻿@model Aula_MVC_Top.Models.Vendedor
+@{
+    ViewBag.Title = "Login";
+}
+
+<h2>Login</h2>
+
+<form method="post">
+    @Html.Label("Codigo")
+    <br />
+    @Html.TextBoxFor(x => x.cod)
+    <br />
+    @Html.ValidationMessageFor(x => x.cod)
+    <br />
+
+    @Html.Label("Senha")
+    <br />
+    @Html.TextBoxFor(x => x.Senha)
+    <br />
+    @Html.ValidationMessageFor(x => x.Senha)
+    <br />
+
+
+
+    <br />
+    <input type="submit" value="Entrar" />
+
+    
+
+    <br />
+    @Html.ActionLink("Cadastrar", "Cadastrar", "Teste")
+
+</form>
+
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+}
+

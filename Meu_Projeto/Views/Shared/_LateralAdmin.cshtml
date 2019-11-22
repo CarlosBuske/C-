@@ -1,0 +1,21 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/Content/StyleLateral.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="sidenav">
+        @Html.ActionLink("Home", "Index", "Loja")
+        @Html.ActionLink("Cadastrar", "CadastrarProduto", "Loja")
+        @Html.ActionLink("Listar Produtos", "Listar", "Loja")
+        
+    </div>
+</body>
+</html>

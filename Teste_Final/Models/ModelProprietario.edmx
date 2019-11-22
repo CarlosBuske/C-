@@ -1,0 +1,152 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="EstudoProva1Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Carro">
+          <Key>
+            <PropertyRef Name="Id_Carro" />
+          </Key>
+          <Property Name="Id_Carro" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Montadora" Type="nvarchar" MaxLength="50" />
+          <Property Name="Modelo" Type="nvarchar" MaxLength="50" />
+          <Property Name="Ano" Type="nvarchar" MaxLength="4" />
+          <Property Name="Cor" Type="nvarchar" MaxLength="50" />
+          <Property Name="Placa" Type="nvarchar" MaxLength="50" />
+          <Property Name="Id_Proprietario" Type="int" />
+        </EntityType>
+        <EntityType Name="Proprietario">
+          <Key>
+            <PropertyRef Name="Id_Proprietario" />
+          </Key>
+          <Property Name="Id_Proprietario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="50" />
+          <Property Name="Cpf" Type="nvarchar" MaxLength="20" />
+          <Property Name="Sexo" Type="nvarchar" MaxLength="1" />
+          <Property Name="Ativo" Type="bit" />
+        </EntityType>
+        <Association Name="FK__Carro__Id_Propri__0519C6AF">
+          <End Role="Proprietario" Type="Self.Proprietario" Multiplicity="0..1" />
+          <End Role="Carro" Type="Self.Carro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proprietario">
+              <PropertyRef Name="Id_Proprietario" />
+            </Principal>
+            <Dependent Role="Carro">
+              <PropertyRef Name="Id_Proprietario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EstudoProva1ModelStoreContainer">
+          <EntitySet Name="Carro" EntityType="Self.Carro" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Proprietario" EntityType="Self.Proprietario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__Carro__Id_Propri__0519C6AF" Association="Self.FK__Carro__Id_Propri__0519C6AF">
+            <End Role="Proprietario" EntitySet="Proprietario" />
+            <End Role="Carro" EntitySet="Carro" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EstudoProva1Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Carro">
+          <Key>
+            <PropertyRef Name="Id_Carro" />
+          </Key>
+          <Property Name="Id_Carro" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Montadora" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Modelo" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Ano" Type="String" MaxLength="4" FixedLength="false" Unicode="true" />
+          <Property Name="Cor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Placa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Id_Proprietario" Type="Int32" />
+          <NavigationProperty Name="Proprietario" Relationship="Self.FK__Carro__Id_Propri__0519C6AF" FromRole="Carro" ToRole="Proprietario" />
+        </EntityType>
+        <EntityType Name="Proprietario">
+          <Key>
+            <PropertyRef Name="Id_Proprietario" />
+          </Key>
+          <Property Name="Id_Proprietario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Cpf" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="Sexo" Type="String" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Name="Ativo" Type="Boolean" />
+          <NavigationProperty Name="Carro" Relationship="Self.FK__Carro__Id_Propri__0519C6AF" FromRole="Proprietario" ToRole="Carro" />
+        </EntityType>
+        <Association Name="FK__Carro__Id_Propri__0519C6AF">
+          <End Role="Proprietario" Type="Self.Proprietario" Multiplicity="0..1" />
+          <End Role="Carro" Type="Self.Carro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proprietario">
+              <PropertyRef Name="Id_Proprietario" />
+            </Principal>
+            <Dependent Role="Carro">
+              <PropertyRef Name="Id_Proprietario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EstudoProva1Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Carro" EntityType="Self.Carro" />
+          <EntitySet Name="Proprietario" EntityType="Self.Proprietario" />
+          <AssociationSet Name="FK__Carro__Id_Propri__0519C6AF" Association="Self.FK__Carro__Id_Propri__0519C6AF">
+            <End Role="Proprietario" EntitySet="Proprietario" />
+            <End Role="Carro" EntitySet="Carro" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EstudoProva1ModelStoreContainer" CdmEntityContainer="EstudoProva1Entities">
+          <EntitySetMapping Name="Carro">
+            <EntityTypeMapping TypeName="EstudoProva1Model.Carro">
+              <MappingFragment StoreEntitySet="Carro">
+                <ScalarProperty Name="Id_Carro" ColumnName="Id_Carro" />
+                <ScalarProperty Name="Montadora" ColumnName="Montadora" />
+                <ScalarProperty Name="Modelo" ColumnName="Modelo" />
+                <ScalarProperty Name="Ano" ColumnName="Ano" />
+                <ScalarProperty Name="Cor" ColumnName="Cor" />
+                <ScalarProperty Name="Placa" ColumnName="Placa" />
+                <ScalarProperty Name="Id_Proprietario" ColumnName="Id_Proprietario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Proprietario">
+            <EntityTypeMapping TypeName="EstudoProva1Model.Proprietario">
+              <MappingFragment StoreEntitySet="Proprietario">
+                <ScalarProperty Name="Id_Proprietario" ColumnName="Id_Proprietario" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="Cpf" ColumnName="Cpf" />
+                <ScalarProperty Name="Sexo" ColumnName="Sexo" />
+                <ScalarProperty Name="Ativo" ColumnName="Ativo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Meu_Projeto.Models.Produtos>
+@{
+    ViewBag.Title = "Listar";
+}
+
+<h2>Listar</h2>
+
+<table width="70%" border="1">
+    <tr>
+        <th>Id</th>
+        <th>Nome</th>
+        <th>Descrição</th>
+        <th>Valor</th>
+        <th>Tipo</th>
+        <th>Marca</th>
+        <th>Modelo</th>
+        <th>Editar</th>
+        <th>Excluir</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.Id</td>
+            <td>@item.Nome</td>
+            <td>@item.Descricao</td>
+            <td>@item.Valor</td>
+            <td>@item.Tipo</td>
+            <td>@item.Marca</td>
+            <td>@item.Modelo</td>
+            <td>@Html.ActionLink("Editar", "Editar", new { id = item.Id })</td>
+            <td>@Html.ActionLink("Excluir", "Delete", new { id = item.Id })</td>
+        </tr>
+    }
+</table>
+
+@section Lateral{
+    @{ if (Session["Logado"].Equals("Admin"))
+        {
+            @Html.Partial("_LateralAdmin")
+        }
+
+    }
+}

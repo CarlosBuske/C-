@@ -1,0 +1,31 @@
+﻿@model Atividade.Models.Usuario
+@{
+    ViewBag.Title = "TelasCadastraNoticia";
+}
+
+<h2>TelasCadastraNoticia</h2>
+
+<form method="post">
+    Noticia
+    <input type="text" id="txt_noticia" name="txt_noticia" />
+    <br />
+    @Html.Label("Tipo")
+    <br />
+    @Html.TextBoxFor(x => x.Tipo)
+    <br />
+    @Html.ValidationMessageFor(x => x.Tipo)
+    <br />
+    <input type="submit" value="Salvar" />
+</form>
+
+@using (Html.BeginForm("Voltar", "Inicial", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <input type="submit" value="Voltar" />
+}
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+}

@@ -1,0 +1,66 @@
+﻿@model Meu_Projeto.Models.Produtos
+@{
+    ViewBag.Title = "Detalhes";
+}
+
+<h2>Detalhes</h2>
+
+
+
+@Html.Label("Nome Produto")
+<br />
+@Html.TextBoxFor(x => x.Nome)
+<br />
+@Html.ValidationMessageFor(x => x.Nome)
+<br />
+
+@Html.Label("Valor")
+<br />
+@Html.TextBoxFor(x => x.Valor)
+<br />
+@Html.ValidationMessageFor(x => x.Valor)
+<br />
+
+@Html.Label("Descrição")
+<br />
+@Html.TextBoxFor(x => x.Descricao)
+<br />
+@Html.ValidationMessageFor(x => x.Descricao)
+<br />
+
+
+@Html.Label("Marca")
+<br />
+@Html.TextBoxFor(x => x.Marca)
+<br />
+@Html.ValidationMessageFor(x => x.Marca)
+<br />
+
+@Html.Label("Modelo")
+<br />
+@Html.TextBoxFor(x => x.Modelo)
+<br />
+@Html.ValidationMessageFor(x => x.Modelo)
+<br />
+
+
+
+
+
+
+@section Lateral{
+    @{ if (Session["Logado"].Equals("Usuario"))
+        {
+            @Html.Partial("_LateralUser")
+        }
+
+    }
+}
+
+@section Rodape{
+    @{ if (Session["Logado"].Equals("Usuario"))
+        {
+            @Html.Partial("_FooterDetalhes")
+        }
+    }
+}

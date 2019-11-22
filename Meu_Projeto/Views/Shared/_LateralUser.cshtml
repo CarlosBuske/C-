@@ -1,0 +1,25 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link href="~/Content/StyleLateral.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div class="sidenav">
+        @Html.ActionLink("Home", "Index", "Loja")
+        @Html.ActionLink("Produtos", "ProdutosUser", "User")
+        @Html.ActionLink("Meu Carrinho", "Meu_Carrinho", "User")
+        @Html.ActionLink("Celulares", "ListaCelular", "User")
+        @Html.ActionLink("Tablet's", "ListaTablet", "User")
+        @Html.ActionLink("Notebook's", "ListaNotebook", "User")
+        @Html.ActionLink("Carregadores", "ListaCarregadores", "User")
+
+    </div>
+</body>
+</html>

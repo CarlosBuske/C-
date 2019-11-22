@@ -1,0 +1,203 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="AgoraVaiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Itens_Nota">
+          <Key>
+            <PropertyRef Name="Id_ItensNota" />
+          </Key>
+          <Property Name="Id_ItensNota" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Produto" Type="int" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="100" />
+          <Property Name="ValorUnitario" Type="int" />
+          <Property Name="Quantidade" Type="int" />
+          <Property Name="ValorTotar" Type="int" />
+          <Property Name="Id_Nota" Type="int" />
+        </EntityType>
+        <EntityType Name="Nota">
+          <Key>
+            <PropertyRef Name="Id_Nota" />
+          </Key>
+          <Property Name="Id_Nota" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Pessoa" Type="int" />
+          <Property Name="Data" Type="varchar" MaxLength="30" />
+          <Property Name="valorT" Type="int" />
+          <Property Name="Nome_Cliente" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Pessoa">
+          <Key>
+            <PropertyRef Name="Id_Pessoa" />
+          </Key>
+          <Property Name="Id_Pessoa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="Produto">
+          <Key>
+            <PropertyRef Name="Id_Produto" />
+          </Key>
+          <Property Name="Id_Produto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Descricao" Type="nvarchar" MaxLength="100" />
+          <Property Name="valor" Type="int" />
+        </EntityType>
+        <Association Name="Id_Nota">
+          <End Role="Nota" Type="Self.Nota" Multiplicity="0..1" />
+          <End Role="Itens_Nota" Type="Self.Itens_Nota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nota">
+              <PropertyRef Name="Id_Nota" />
+            </Principal>
+            <Dependent Role="Itens_Nota">
+              <PropertyRef Name="Id_Nota" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AgoraVaiModelStoreContainer">
+          <EntitySet Name="Itens_Nota" EntityType="Self.Itens_Nota" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Nota" EntityType="Self.Nota" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pessoa" EntityType="Self.Pessoa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Produto" EntityType="Self.Produto" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="Id_Nota" Association="Self.Id_Nota">
+            <End Role="Nota" EntitySet="Nota" />
+            <End Role="Itens_Nota" EntitySet="Itens_Nota" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="AgoraVaiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Itens_Nota">
+          <Key>
+            <PropertyRef Name="Id_ItensNota" />
+          </Key>
+          <Property Name="Id_ItensNota" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Produto" Type="Int32" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="ValorUnitario" Type="Int32" />
+          <Property Name="Quantidade" Type="Int32" />
+          <Property Name="ValorTotar" Type="Int32" />
+          <Property Name="Id_Nota" Type="Int32" />
+          <NavigationProperty Name="Nota" Relationship="Self.Id_Nota" FromRole="Itens_Nota" ToRole="Nota" />
+        </EntityType>
+        <EntityType Name="Nota">
+          <Key>
+            <PropertyRef Name="Id_Nota" />
+          </Key>
+          <Property Name="Id_Nota" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Pessoa" Type="Int32" />
+          <Property Name="Data" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="valorT" Type="Int32" />
+          <Property Name="Nome_Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Itens_Nota" Relationship="Self.Id_Nota" FromRole="Nota" ToRole="Itens_Nota" />
+        </EntityType>
+        <EntityType Name="Pessoa">
+          <Key>
+            <PropertyRef Name="Id_Pessoa" />
+          </Key>
+          <Property Name="Id_Pessoa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Produto">
+          <Key>
+            <PropertyRef Name="Id_Produto" />
+          </Key>
+          <Property Name="Id_Produto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Descricao" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="valor" Type="Int32" />
+        </EntityType>
+        <Association Name="Id_Nota">
+          <End Role="Nota" Type="Self.Nota" Multiplicity="0..1" />
+          <End Role="Itens_Nota" Type="Self.Itens_Nota" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Nota">
+              <PropertyRef Name="Id_Nota" />
+            </Principal>
+            <Dependent Role="Itens_Nota">
+              <PropertyRef Name="Id_Nota" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AgoraVaiEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Itens_Nota" EntityType="Self.Itens_Nota" />
+          <EntitySet Name="Nota" EntityType="Self.Nota" />
+          <EntitySet Name="Pessoa" EntityType="Self.Pessoa" />
+          <EntitySet Name="Produto" EntityType="Self.Produto" />
+          <AssociationSet Name="Id_Nota" Association="Self.Id_Nota">
+            <End Role="Nota" EntitySet="Nota" />
+            <End Role="Itens_Nota" EntitySet="Itens_Nota" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AgoraVaiModelStoreContainer" CdmEntityContainer="AgoraVaiEntities">
+          <EntitySetMapping Name="Itens_Nota">
+            <EntityTypeMapping TypeName="AgoraVaiModel.Itens_Nota">
+              <MappingFragment StoreEntitySet="Itens_Nota">
+                <ScalarProperty Name="Id_ItensNota" ColumnName="Id_ItensNota" />
+                <ScalarProperty Name="Id_Produto" ColumnName="Id_Produto" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="ValorUnitario" ColumnName="ValorUnitario" />
+                <ScalarProperty Name="Quantidade" ColumnName="Quantidade" />
+                <ScalarProperty Name="ValorTotar" ColumnName="ValorTotar" />
+                <ScalarProperty Name="Id_Nota" ColumnName="Id_Nota" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Nota">
+            <EntityTypeMapping TypeName="AgoraVaiModel.Nota">
+              <MappingFragment StoreEntitySet="Nota">
+                <ScalarProperty Name="Id_Nota" ColumnName="Id_Nota" />
+                <ScalarProperty Name="Id_Pessoa" ColumnName="Id_Pessoa" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="valorT" ColumnName="valorT" />
+                <ScalarProperty Name="Nome_Cliente" ColumnName="Nome_Cliente" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pessoa">
+            <EntityTypeMapping TypeName="AgoraVaiModel.Pessoa">
+              <MappingFragment StoreEntitySet="Pessoa">
+                <ScalarProperty Name="Id_Pessoa" ColumnName="Id_Pessoa" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Produto">
+            <EntityTypeMapping TypeName="AgoraVaiModel.Produto">
+              <MappingFragment StoreEntitySet="Produto">
+                <ScalarProperty Name="Id_Produto" ColumnName="Id_Produto" />
+                <ScalarProperty Name="Descricao" ColumnName="Descricao" />
+                <ScalarProperty Name="valor" ColumnName="valor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

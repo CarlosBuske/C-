@@ -1,0 +1,121 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Inicial</h2>
+<form method="post" id="form">
+    <div id="divPesquisa">
+        <label for="txtNomeProprietario" id="lblNomeProprietario"> Nome: </label>
+        <input type="text" id="txtNomeProprietario" name="txtNomeProprietario" />
+        <label for="txtCpfProprietario" id="lblCpfProprietario"> Cpf: </label>
+        <input type="text" id="txtCpfProprietario" name="txtCpfProprietario" />
+        <select id="selectSexoProprietario" name="selectSexoProprietario">
+            <option value="T">Todos</option>
+            <option value="M">Masculino</option>
+            <option value="F"> Feminino</option>
+        </select>
+        <input type="checkbox" id="cbxAtivoProprietario" name="cbxAtivoProprietario" checked />
+        <label for="cbxAtivoProprietario">Ativo</label>
+    </div>
+
+    <div id="div_Lista">
+        <table id="Tabela" width="100%" border="1">
+            <tbody></tbody>
+        </table>
+    </div>
+
+    <h2>@Html.ActionLink("Adicionar Novo Proprietario", "Create")</h2>
+
+
+
+</form>
+
+@section scripts{
+    <script>
+        var lista_tudo;
+
+
+        $(document).ready(function () {
+            Listar_Tudo();
+        });
+
+
+        function Listar_Tudo() {
+            var form = $('#form').serialize();
+            $.ajax({
+                url: '@Url.Action("Lista_Tudo_Proprietario")',
+                type: 'POST',
+                data: form,
+                success: function (data) {
+                    Mostra_tabela(data.Lista_Proprietario_Aux);
+                    lista_tudo = data.Lista_Proprietario_Aux;
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+        $('#txtNomeProprietario').keyup(function (event) {
+            Listar_Tudo();
+        });
+        $('#txtCpfProprietario').keyup(function (event) {
+            Listar_Tudo();
+        });
+        $('#selectSexoProprietario').change(function () {
+            Listar_Tudo();
+        });
+        $('#cbxAtivoProprietario').change(function () {
+            Listar_Tudo();
+        });
+
+        function Mostra_tabela(lista) {
+            lista_tudo = lista;
+            $("#Tabela tr").remove();
+            //$("#Tabela").html(''); tbm funciona
+            $("#Tabela").append("<tr><th>Nome</th><th>Cpf</th><th>Sexo</th><th>Editar</th><th>Excluir</th></tr>");
+            for ($i = 0; $i < lista.length; $i++) {
+                $("#Tabela").append("<tr><td>" + lista[$i].Nome + "</td><td>" + lista[$i].Cpf + "</td><td>" + lista[$i].Sexo + "</td><td> <input type=button id=btn_Alt_Proprietario name=btn_Alt_Proprietario onclick=Alterar_Proprietario(" + lista[$i].Id_Proprietario + ") value = Alterar /> </td><td> <input type=button id=btn_Rem_Proprietario name=btn_Rem_Proprietario onclick=Delete(" + lista[$i].Id_Proprietario + ") value = Excluir /> </td></tr>")
+                
+                    //< td > < input type= button id= btn_Alt_Proprietario name= btn_Alt_Proprietario onclick= Alterar_Proprietario(" + $i + ") value = Alterar /></td >
+                }
+        }
+
+        function Alterar_Proprietario(id) {
+             $.ajax({
+                url: '@Url.Action("SetSession")',
+                type: 'POST',
+                data: { id: id },
+                 success: function () {
+
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+            
+            var targetUrl = "/Proprietario/Edit"
+            window.location.href = targetUrl;
+            //lista_tudo[(arguments[0])].Id_Proprietario
+            //$("#txtNomeProprietario").val(lista_tudo[(arguments[0])].Id_Proprietario);
+            
+        }
+
+        function Delete(id) {
+            $.ajax({
+                url: '@Url.Action("Delete")',
+                type: 'Get',
+                data: { id: id },
+                success: function (data) {
+                    Listar_Tudo();
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+    </script>
+    }
+

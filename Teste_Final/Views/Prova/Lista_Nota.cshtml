@@ -1,0 +1,76 @@
+﻿
+@{
+    ViewBag.Title = "Lista_Nota";
+}
+
+<h2>Lista Nota</h2>
+<form method="post" id="form">
+
+
+    <div id="div_Lista">
+        @*<table id="Tabela" width="100%" border="1">
+                <tbody></tbody>
+            </table>*@
+    </div>
+    <br />
+    <input type="button" id="Voltar" name="Voltar" value="Voltar" onclick="Sair()"/>
+</form>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            //Listar_Tudo();
+            Cria_Lista();
+        });
+
+        function Sair() {
+            var targetUrl = "/Prova/List_Pessoas";
+            window.location.href = targetUrl;
+        }
+        function Cria_Lista() {
+            $.ajax({
+                url: '@Url.Action("TrazListaNotas")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    $("#div_Lista").html(data.TabelaNota);
+
+
+
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+        function detalhes(id) {
+            $.ajax({
+                url: '@Url.Action("SetIdSessionNota")',
+                type: 'POST',
+                data: { id: id },
+                success: function (data) {
+                    var targetUrl = "/Prova/DetalhesNota";
+                    window.location.href = targetUrl;
+
+
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+        function CadastrarCliente() {
+            var targetUrl = "/Prova/Cad_Pessoa";
+            window.location.href = targetUrl;
+        }
+
+        function CadastrarProduto() {
+            var targetUrl = "/Prova/Cad_Produto";
+            window.location.href = targetUrl;
+        }
+    </script>
+
+}

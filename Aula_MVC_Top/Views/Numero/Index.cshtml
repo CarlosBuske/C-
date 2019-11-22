@@ -1,0 +1,25 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<form action="Index" method="post">
+    <h2>Insira Um numero</h2>
+    <table>
+        <tr>
+            <td>Numero</td>
+            <td><input type="text" id="txt_num" name="txt_num" value="@ViewBag.Numero" /></td>
+
+            <td>
+                <input type="hidden" id="Resultado" name="Resultado" value="@ViewData["Resultado"]" />
+                <input type="submit" id="btn_somar" name="btn_salvar" value="+" />
+            </td>
+        </tr>
+        <tr>
+            <td>@Html.Raw(HttpUtility.HtmlDecode(ViewBag.Menssagem))</td>
+        </tr>
+    </table>
+
+
+</form>
+

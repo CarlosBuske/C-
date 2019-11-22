@@ -1,0 +1,73 @@
+﻿@model Atividade.Models.Usuario
+@{
+    ViewBag.Title = "TelasAdm";
+}
+
+<h2>TelasAdm</h2>
+
+
+@using (Html.BeginForm("Editar", "Inicial", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    <table class="table table-condensed table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>codigo</th>
+                <th>Noticia</th>
+                <th>Tipo</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (ViewBag.Lista != null)
+                {
+                    foreach (var item in ViewBag.Lista)
+                    {
+                        //total = ViewBag.Lista.IndexOf(item) + 1;
+                        <tr>
+
+                            <td>@item.cod_noticia</td>
+                            <td>@item.Noticia</td>
+                            <td>@item.Tipo</td>
+                        </tr>
+                    }
+                }
+            }
+        </tbody>
+    </table>
+
+    @Html.Label("Codigo da Noticia Para Alterar")
+    <br />
+    @Html.TextBoxFor(x => x.cod_noticia)
+    <br />
+    @Html.ValidationMessageFor(x => x.cod_noticia)
+    <br />
+
+    <input type="submit" value="Alterar" />
+}
+
+@using (Html.BeginForm("Excluir", "Inicial", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    @Html.Label("Codigo da Noticia Para Excluir")
+    <br />
+    @Html.TextBoxFor(x => x.cod_noticia)
+    <br />
+    @Html.ValidationMessageFor(x => x.cod_noticia)
+    <br />
+
+    <input type="submit" value="Excluir" />
+}
+
+@using (Html.BeginForm("CadastrarNova", "Inicial", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    <input type="submit" value="Excluir" />
+}
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+
+
+}

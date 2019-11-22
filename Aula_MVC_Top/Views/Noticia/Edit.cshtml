@@ -1,0 +1,17 @@
+﻿@model Aula_MVC_Top.Models.Noticias
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Editar Dados</h2>
+<form method="post">
+    Id: @Html.TextBoxFor(x => x.Id, new { @readonly = "readonly" })
+    <br />
+    Id_Topico: @Html.TextBoxFor(x => x.Id_Topico)
+    <br />
+    Titulo: @Html.TextBoxFor(x => x.Titulo)
+    <br />
+    Descriçãp: @Html.TextBoxFor(x => x.Descricao)
+    <br />
+    <input type="submit" value="Editar" />
+</form>

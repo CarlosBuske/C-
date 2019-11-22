@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<label>Cep</label>
+<input type="text" id="txtCep" name="txtCep" />
+<input type="button" id="btnBuscar" name="btnBuscar" value="Buscar" onclick="Busca_Cep()" />
+<br/>
+<label>Logradouro</label>
+<input type="text" id="txtlogradouro" name="txtlogradouro" readonly/>
+<br/>
+<label>Complemento</label>
+<input type="text" id="txtcomplemento" name="txtcomplemento"readonly />
+<br />
+<label>Bairro</label>
+<input type="text" id="txtbairro" name="txtbairro" readonly/>
+<br />
+<label>Localidade</label>
+<input type="text" id="txtlocalidade" name="txtlocalidade" readonly/>
+<br />
+<label>UF</label>
+<input type="text" id="txtuf" name="txtuf" readonly/>
+
+
+@section scripts{
+    <script>
+
+        function Busca_Cep() {
+            $.ajax({
+                url: "http://localhost:61938/WebService.asmx/BuscarCep",
+                type: "POST",
+                data: {cep: $("#txtCep").val() },
+                success: function (data) {
+                    var end = JSON.stringify(data);
+                    $('#txtlogradouro').val(data.logradouro)
+                    $('#txtcomplemento').val(data.complemento)
+                    $('#txtbairro').val(data.bairro)
+                    $('#txtlocalidade').val(data.localidade)
+                    $('#txtuf').val(data.uf)
+                    alert(end);
+                },
+                error: function () {
+                    console.log(data)
+                    alert('Deu algo errado');
+                }
+
+            })
+        }
+        //function Busca_Cep() {
+        //    $.ajax({
+        //        url: "https://viacep.com.br/ws/" + $("#txtCep").val() + "/json/",
+        //        type: "GET",
+        //        success: function (data) {
+        //            var retorno = JSON.stringify(data);
+        //            //console.log(data);
+        //            //alert(retorno);
+                    
+                    //$('#txtlogradouro').val(data.logradouro)
+                    //$('#txtcomplemento').val(data.complemento)
+                    //$('#txtbairro').val(data.bairro)
+                    //$('#txtlocalidade').val(data.localidade)
+                    //$('#txtuf').val(data.uf)
+
+        //        },
+        //        error: function () {
+        //            alert('Deu algo errado');
+        //        }
+
+        //    })
+        //}
+
+        //$('#txtCep').keyup(function (event) {
+        //    if ($('#txtCep').val().length == 8) {
+        //        Busca_Cep();
+        //    }
+        //    Listar_Tudo();
+        //});
+    </script>
+}
+
+
+

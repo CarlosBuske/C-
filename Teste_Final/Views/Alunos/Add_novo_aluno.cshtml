@@ -1,0 +1,35 @@
+﻿@model Teste_Final.Models.Alunos
+@{
+    ViewBag.Title = "Add_novo_aluno";
+}
+
+<h2>Adicionar novo aluno</h2>
+<form method="post">
+    @Html.ValidationSummary(true)
+
+    @Html.Label("Nome")
+    <br />
+    @Html.TextBoxFor(x => x.Nome)
+    <br />
+    @Html.ValidationMessageFor(x => x.Nome)
+    <br />
+
+    @Html.Label("Sexo")
+    <br />
+    @Html.TextBoxFor(x => x.Sexo)
+    <br />
+    @Html.ValidationMessageFor(x => x.Sexo)
+    <br />
+
+    @Html.LabelFor(x => x.Ativo)
+    <label>Sim</label>@Html.RadioButtonFor(x => x.Ativo, "true")
+
+    <label>Não</label>@Html.RadioButtonFor(x => x.Ativo, "false")
+
+    s
+
+
+
+    <br />
+    <input type="submit" value="Salvar" />
+</form>
