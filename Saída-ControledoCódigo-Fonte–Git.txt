@@ -1,0 +1,7 @@
+﻿Um novo repositório Git foi criado para você em C:\Users\Walker\source\repos\Aula_Mvc.
+Abrindo repositórios:
+C:\Users\Walker\source\repos\Aula_Mvc
+Abrindo repositórios:
+C:\Users\Walker\source\repos\Aula_Mvc
+O thread de chamada não pode acessar este objeto porque ele pertence a um thread diferente.
+Enviando por push master
