@@ -1,0 +1,117 @@
+﻿@model Tizer.Models.Funcionarios
+@{
+    ViewBag.Title = "Cad_Funcionario";
+}
+
+<h2>Cadastro de Funcionario</h2>
+
+<form method="post" id="form" name="form">
+    <label for="txtNome" id="lblNome">Nome: </label>
+    <input type="text" id="txtNome" name="txtNome" />
+
+    <label for="txtCPF" id="lblCPF">CPF: </label>
+    <input class="mask-cpf" type="text" id="txtCPF" name="txtCPF" onkeyup="ValidarCPF()" maxlength="14" />
+    <br />
+
+    <label for="txtEmpresas" id="lblEmpresas">Selecione uma Empresa </label>
+    <select name="Empresas" id="cbxEmpresas"></select>
+    <br />
+
+    <label for="txtTelefone" id="lblTelefone">Telefone: </label>
+    <input type="text" id="txtTelefone" name="txtTelefone" />
+    <br />
+
+    <label for="txtSalario" id="lblSalario">Salario: </label>
+    <input type="number" id="txtSalario" name="txtSalario" />
+    <br />
+
+    <label for="txtDataAdmissao" id="lblDataAdmissao">Data Admissão: </label>
+    <input type="date" id="txtDataAdmissao" name="txtDataAdmissao" />
+    <br />
+
+
+    <input type="button" id="btnCadastrarFuncionario" name="btnCadastrarFuncionario" value="Cadastrar Funcionario" onclick="CadastrarFuncionario()" />
+    <input type="button" id="btnVoltar" name="btnVoltar" value="Voltar" onclick="Voltar()" />
+</form>
+
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            PuxaCbx();
+        });
+
+        $('.mask-cpf').mask("000.000.000-00");
+
+        function ValidarCPF() {
+            if ($("#txtCPF").val().charAt(13)) {
+                $.ajax({
+                url: '@Url.Action("ValidaCpf")',
+                type: 'POST',
+                data: { cpf: $("#txtCPF").val() },
+                success: function (data) {
+                    if (data.auxV) {
+                    } else {
+                        alert('Cpf Invalido');
+                        $("#txtCPF").val("")
+                    }
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+            }
+        }
+
+        function PuxaCbx() {
+                $.ajax({
+                url: '@Url.Action("TrazCbx")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    $("#cbxEmpresas").html(data.Cbx);
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+        function CadastrarFuncionario() {
+            if ($("#txtNome").val() == "") {
+                alert('Nome Obrigatorio');
+            } if ($("#txtCPF").val() == "") {
+                alert('CPF Obrigatorio');
+            } if ($("#txtDataAdmissao").val() == "") {
+                alert('Data Admissão Obrigatorio');
+            } else if ($("#txtNome").val() != "" && $("#txtCPF").val() != "" && $("#txtDataAdmissao").val() != "") {
+                $.ajax({
+                url: '@Url.Action("CadastrarFuncionario")',
+                type: 'POST',
+                    data: { nome:$("#txtNome").val(), Cpf: $("#txtCPF").val(), Id_Empresa: $("#cbxEmpresas").val(), Telefone:$("#txtTelefone").val(), Salario:$("#txtSalario").val(), DataAdmissao:$("#txtDataAdmissao").val()},
+                    success: function () {
+                        $("#txtNome").val("")
+                        $("#txtCPF").val("")
+                        $("#txtTelefone").val("")
+                        $("#txtSalario").val("")
+                    alert('Cadastrado Com Sucesso');
+                    var targetUrl = "/Tizer/ListaFuncionarios";
+                    window.location.href = targetUrl;
+                },
+                error: function () {
+                    alert('Ops! Alguma coisa deu errado');
+                }
+            });
+            }
+        }
+
+        function Voltar() {
+            var targetUrl = "/Tizer/ListaFuncionarios";
+            window.location.href = targetUrl;
+        }
+
+
+    </script>
+}

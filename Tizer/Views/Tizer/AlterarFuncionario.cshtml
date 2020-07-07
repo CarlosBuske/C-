@@ -1,0 +1,173 @@
+﻿
+@{
+    ViewBag.Title = "AlterarFuncionario";
+}
+
+<h2>Alterar Funcionario</h2>
+<form method="post" id="form" name="form">
+    <label for="txtNome" id="lblNome">Nome: </label>
+    <input type="text" id="txtNome" name="txtNome" />
+
+    <label for="txtCPF" id="lblCPF">CPF: </label>
+    <input class="mask-cpf" type="text" id="txtCPF" name="txtCPF" maxlength="14" readonly />
+    <br />
+
+    <label for="txtEmpresas" id="lblEmpresas">Selecione uma Empresa </label>
+    <select name="Empresas" id="cbxEmpresas" onchange="CompararId()"></select>
+    <br />
+
+    <label for="txtTelefone" id="lblTelefone">Cidade: </label>
+    <input type="text" id="txtTelefone" name="txtTelefone" />
+    <br />
+
+    <label for="txtSalario" id="lblSalario">Salario: </label>
+    <input type="number" id="txtSalario" name="txtSalario" />
+    <br />
+
+    <label for="txtDataAdmissao" id="lblDataAdmissao">Data Admissão: </label>
+    <input type="text" id="txtDataAdmissao" name="txtDataAdmissao" readonly />
+    <input type="date" id="txtDataAdmissaoNova" name="txtDataAdmissaoNova"hidden />
+    <br />
+
+
+    <label for="txtDataDemissao" id="lblDataDemissao">Data Demissão: </label>
+    <input type="date" id="txtDataDemissaoNova" name="txtDataDemissaoNova" hidden />
+    <input type="text" id="txtDataDemissao" name="txtDataDemissao" readonly />
+    <br />
+
+
+    <input type="button" id="btnAlterarFuncionario" name="btnAlterarFuncionario" value="Alterar Funcionario" onclick="AtualizarFuncionario()" />
+    <input type="button" id="btnVoltar" name="btnVoltar" value="Voltar" onclick="Voltar()" />
+</form>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            PuxaCbx();
+            PopulaCampos();
+            
+        });
+        function PuxaCbx() {
+                $.ajax({
+                url: '@Url.Action("TrazCbx")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    $("#cbxEmpresas").html(data.Cbx);
+                    
+                   
+                    
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+        function PopulaCampos() {
+            $.ajax({
+                url: '@Url.Action("PopulaCamposFuncionario")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    $('#txtNome').val(data.auxNome);
+                    $('#txtCPF').val(data.auxCpf);
+                    $('#txtTelefone').val(data.auxTelefone);
+                    $('#txtSalario').val(data.auxSalario);
+                    $('#cbxEmpresas').val(data.auxCbx);
+                    $('#txtDataAdmissao').val(data.dateAux);
+                    if (data.auxStatus == "Trabalhando") {
+                        $("#txtDataDemissaoNova").show();
+                        $("#txtDataDemissao").hide();
+                    } else {
+                        $('#txtDataDemissao').val(data.dateAuxDemissao);
+                    }
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+        function Cria_Lista() {
+            $.ajax({
+                url: '@Url.Action("TrazListaFuncionarios")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    $("#Funcionarios").html(data.Tabela);
+
+
+
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+        function AtualizarFuncionario() {
+
+            if ($("#txtNome").val() == "") {
+                alert('Nome Obrigatorio');
+            } if ($("#txtCPF").val() == "") {
+                alert('CPF Obrigatorio');
+            } else if ($("#txtNome").val() != "" && $("#txtCPF").val() != "" && $("#txtDataAdmissao").val() != "") {
+                $.ajax({
+                    url: '@Url.Action("Alterar_Funcionario")',
+                    type: 'POST',
+                    data: { nome: $("#txtNome").val(), Telefone: $("#txtTelefone").val(), Salario: $("#txtSalario").val(), Empresa: $("#cbxEmpresas").val(), DataDemissaoNova: $("#txtDataDemissaoNova").val(), DataAdmissaoNova: $("#txtDataAdmissaoNova").val() },
+                    success: function (data) {
+                        alert('Atualizado com Sucesso!!');
+                        var targetUrl = "/Tizer/ListaFuncionarios";
+                        window.location.href = targetUrl;
+                        TrazVeiculos();
+
+                    },
+                    error: function (data) {
+                        alert('Errou');
+                    }
+                });
+            }
+        }
+
+        function CompararId() {
+            $.ajax({
+                url: '@Url.Action("CompararId")',
+                type: 'POST',
+                data: {Empresa: $("#cbxEmpresas").val()},
+                success: function (data) {
+                    if (data.aux) {
+                        $("#txtDataAdmissaoNova").show();
+                        $("#txtDataDemissaoNova").show();
+                        $("#txtDataAdmissao").hide();
+                        $("#txtDataDemissao").hide();
+                    } else if (data.auxStatus == "Trabalhando") {
+                        $("#txtDataAdmissaoNova").hide();
+                        $("#txtDataDemissaoNova").show();
+                        $("#txtDataAdmissao").show();
+                        $("#txtDataDemissao").hide();
+                    } else {
+                        $("#txtDataAdmissaoNova").hide();
+                        $("#txtDataDemissaoNova").hide();
+                        $("#txtDataAdmissao").show();
+                        $("#txtDataDemissao").show();
+                    }
+                    
+                },
+                error: function (data) {
+                    alert('Errou');
+                }
+            });
+        }
+
+        function Voltar() {
+            var targetUrl = "/Tizer/ListaFuncionarios";
+            window.location.href = targetUrl;
+        }
+
+        
+
+    </script>
+
+}

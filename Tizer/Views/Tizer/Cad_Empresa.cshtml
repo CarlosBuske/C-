@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewBag.Title = "Cad_Empresa";
+}
+
+<h2>Cadastro de Empresa</h2>
+<form method="post" id="form" name="form">
+    <label for="txtRazaoSocial" id="lblRazaoSocial">Razão Social: </label>
+    <input type="text" id="txtRazaoSocial" name="txtRazaoSocial" />
+    <br />
+
+    <label for="txtCNPJ" id="lblCNPJ">CNPJ: </label>
+    <input class="mask-cnpj" type="text" id="txtCNPJ" name="txtCNPJ" onkeyup="ValidarCNPJ()" />
+    <br />
+
+    <label for="txtCidade" id="lblCidade">Cidade: </label>
+    <input type="text" id="txtCidade" name="txtCidade" />
+    <br />
+
+    <label for="txtUF" id="lblUF">UF: </label>
+    <input type="text" id="txtUF" name="txtUF" />
+    <br />
+
+    <input type="button" id="btnCadastrarEmpresa" name="btnCadastrarEmpresa" value="Cadastrar Empresa" onclick="CadastrarEmpresa()" />
+    <input type="button" id="btnVoltar" name="btnVoltar" value="Voltar" onclick="Voltar()" />
+</form>
+
+@section scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.10/jquery.mask.js"></script>
+    <script>
+        $('.mask-cnpj').mask("00.000.000/0000-00");
+
+        function ValidarCNPJ() {
+            if ($("#txtCNPJ").val().charAt(17)) {
+                $.ajax({
+                url: '@Url.Action("ValidaCnpj")',
+                type: 'POST',
+                data: { cnpj: $("#txtCNPJ").val() },
+                success: function (data) {
+                    if (data.auxV) {
+                    } else {
+                        alert('Cnpj Invalido');
+                        $("#txtCNPJ").val("")
+                    }
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+            }
+        }
+
+        function CadastrarEmpresa() {
+            if ($("#txtRazaoSocial").val() == "") {
+                alert('Razão Sozial Obrigatorio');
+            } if ($("#txtCNPJ").val() == "") {
+                alert('CNPJ Obrigatorio');
+            } else if ($("#txtRazaoSocial").val() != "" && $("#txtCNPJ").val() != "") {
+                var form = $('#form').serialize();
+                $.ajax({
+                url: '@Url.Action("CadastrarEmpresa")',
+                type: 'POST',
+                data: form,
+                    success: function () {
+                        $("#txtRazaoSocial").val("")
+                        $("#txtCNPJ").val("")
+                        $("#txtCidade").val("")
+                        $("#txtUF").val("")
+                            alert('Cadastrado Com Sucesso');
+                            var targetUrl = "/Tizer/ListaEmpresas";
+                            window.location.href = targetUrl;
+                },
+                error: function () {
+                    alert('Ops! Alguma coisa deu errado');
+                }
+            });
+            }
+
+        }
+        function Voltar() {
+            var targetUrl = "/Tizer/ListaEmpresas";
+            window.location.href = targetUrl;
+        }
+    </script>
+}

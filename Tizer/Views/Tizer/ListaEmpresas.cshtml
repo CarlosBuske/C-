@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "ListaEmpresas";
+}
+
+<h2>Lista Empresas</h2>
+<form method="post" id="form">
+    <div id="Empresas">
+
+    </div>
+</form>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            Cria_Lista();
+        });
+
+        function Cria_Lista() {
+            $.ajax({
+                url: '@Url.Action("TrazLista")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    $("#Empresas").html(data.Tabela);
+
+
+
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+        function Alterar(id){
+            $.ajax({
+                url: '@Url.Action("SetIdSessionEmpresa")',
+                type: 'POST',
+                data: { id: id },
+                success: function (data) {
+                    var targetUrl = "/Tizer/AlterarEmpresa";
+                    window.location.href = targetUrl;
+                   
+                    
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+    </script>
+
+}

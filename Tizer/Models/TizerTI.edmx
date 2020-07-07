@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TizerTIModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Empresa">
+          <Key>
+            <PropertyRef Name="Id_Empresa" />
+          </Key>
+          <Property Name="Id_Empresa" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RazaoSocial" Type="varchar" MaxLength="30" />
+          <Property Name="Cnpj" Type="varchar" MaxLength="18" />
+          <Property Name="Cidade" Type="varchar" MaxLength="50" />
+          <Property Name="UF" Type="varchar" MaxLength="5" />
+        </EntityType>
+        <EntityType Name="Funcionarios">
+          <Key>
+            <PropertyRef Name="Id_Funcionario" />
+          </Key>
+          <Property Name="Id_Funcionario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_Empresa" Type="int" />
+          <Property Name="NomeEmpresa" Type="nvarchar" MaxLength="100" />
+          <Property Name="Nome" Type="nvarchar" MaxLength="100" />
+          <Property Name="CPF" Type="varchar" MaxLength="14" />
+          <Property Name="Telefone" Type="nvarchar" MaxLength="30" />
+          <Property Name="Salario" Type="decimal" Precision="18" Scale="0" />
+          <Property Name="DataAdmissao" Type="nvarchar" MaxLength="30" />
+          <Property Name="DataDemissao" Type="nvarchar" MaxLength="30" />
+          <Property Name="Status" Type="nvarchar" MaxLength="30" />
+        </EntityType>
+        <Association Name="Id_Empresa">
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="0..1" />
+          <End Role="Funcionarios" Type="Self.Funcionarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="Id_Empresa" />
+            </Principal>
+            <Dependent Role="Funcionarios">
+              <PropertyRef Name="Id_Empresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TizerTIModelStoreContainer">
+          <EntitySet Name="Empresa" EntityType="Self.Empresa" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Funcionarios" EntityType="Self.Funcionarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="Id_Empresa" Association="Self.Id_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Funcionarios" EntitySet="Funcionarios" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TizerTIModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Empresa">
+          <Key>
+            <PropertyRef Name="Id_Empresa" />
+          </Key>
+          <Property Name="Id_Empresa" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RazaoSocial" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Cnpj" Type="String" MaxLength="18" FixedLength="false" Unicode="false" />
+          <Property Name="Cidade" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="UF" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Funcionarios" Relationship="Self.Id_Empresa" FromRole="Empresa" ToRole="Funcionarios" />
+        </EntityType>
+        <EntityType Name="Funcionarios">
+          <Key>
+            <PropertyRef Name="Id_Funcionario" />
+          </Key>
+          <Property Name="Id_Funcionario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Empresa" Type="Int32" />
+          <Property Name="NomeEmpresa" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Nome" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="CPF" Type="String" MaxLength="14" FixedLength="false" Unicode="false" />
+          <Property Name="Telefone" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Salario" Type="Decimal" Precision="18" Scale="0" />
+          <Property Name="DataAdmissao" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="DataDemissao" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="Status" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Empresa" Relationship="Self.Id_Empresa" FromRole="Funcionarios" ToRole="Empresa" />
+        </EntityType>
+        <Association Name="Id_Empresa">
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="0..1" />
+          <End Role="Funcionarios" Type="Self.Funcionarios" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="Id_Empresa" />
+            </Principal>
+            <Dependent Role="Funcionarios">
+              <PropertyRef Name="Id_Empresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TizerTIEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Empresa" EntityType="Self.Empresa" />
+          <EntitySet Name="Funcionarios" EntityType="Self.Funcionarios" />
+          <AssociationSet Name="Id_Empresa" Association="Self.Id_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Funcionarios" EntitySet="Funcionarios" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TizerTIModelStoreContainer" CdmEntityContainer="TizerTIEntities">
+          <EntitySetMapping Name="Empresa">
+            <EntityTypeMapping TypeName="TizerTIModel.Empresa">
+              <MappingFragment StoreEntitySet="Empresa">
+                <ScalarProperty Name="Id_Empresa" ColumnName="Id_Empresa" />
+                <ScalarProperty Name="RazaoSocial" ColumnName="RazaoSocial" />
+                <ScalarProperty Name="Cnpj" ColumnName="Cnpj" />
+                <ScalarProperty Name="Cidade" ColumnName="Cidade" />
+                <ScalarProperty Name="UF" ColumnName="UF" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Funcionarios">
+            <EntityTypeMapping TypeName="TizerTIModel.Funcionarios">
+              <MappingFragment StoreEntitySet="Funcionarios">
+                <ScalarProperty Name="Id_Funcionario" ColumnName="Id_Funcionario" />
+                <ScalarProperty Name="Id_Empresa" ColumnName="Id_Empresa" />
+                <ScalarProperty Name="NomeEmpresa" ColumnName="NomeEmpresa" />
+                <ScalarProperty Name="Nome" ColumnName="Nome" />
+                <ScalarProperty Name="CPF" ColumnName="CPF" />
+                <ScalarProperty Name="Telefone" ColumnName="Telefone" />
+                <ScalarProperty Name="Salario" ColumnName="Salario" />
+                <ScalarProperty Name="DataAdmissao" ColumnName="DataAdmissao" />
+                <ScalarProperty Name="DataDemissao" ColumnName="DataDemissao" />
+                <ScalarProperty Name="Status" ColumnName="Status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

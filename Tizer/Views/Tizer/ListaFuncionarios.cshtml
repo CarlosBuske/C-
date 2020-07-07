@@ -1,0 +1,73 @@
+﻿
+@{
+    ViewBag.Title = "ListaFuncionarios";
+}
+
+<h2>Lista Funcionarios</h2>
+<form method="post" id="form">
+    <div id="div_busca">
+        <label for="txtBusca" id="lblBusca"> Buscar: </label>
+        <input type="text" id="txtBusca" name="txtBusca" onkeyup="Pesquisa()" />
+    </div>
+    <div id="Funcionarios">
+
+    </div>
+</form>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            Cria_Lista();
+        });
+
+        function Cria_Lista() {
+            $.ajax({
+                url: '@Url.Action("TrazListaFuncionarios")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    $("#Funcionarios").html(data.Tabela);
+
+
+
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+        function Pesquisa() {
+            $.ajax({
+                url: '@Url.Action("Pesquisa_Funcionario")',
+                type: 'POST',
+                data: { txt_pesquisa: $('#txtBusca').val() },
+                success: function (data) {
+                    $("#Funcionarios").html(data.PesquisaEspecifica)
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+        function Alterar(id){
+            $.ajax({
+                url: '@Url.Action("SetIdSession")',
+                type: 'POST',
+                data: { id: id },
+                success: function (data) {
+                    var targetUrl = "/Tizer/AlterarFuncionario";
+                    window.location.href = targetUrl;
+                   
+                    
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+
+    </script>
+
+}

@@ -1,0 +1,82 @@
+﻿
+@{
+    ViewBag.Title = "AlterarEmpresa";
+}
+
+<h2>Alterar Empresa</h2>
+
+<form method="post" id="form" name="form">
+    <label for="txtRazaoSocial" id="lblRazaoSocial">Razão Social: </label>
+    <input type="text" id="txtRazaoSocial" name="txtRazaoSocial" />
+    <br />
+
+    <label for="txtCNPJ" id="lblCNPJ">CNPJ: </label>
+    <input type="text" id="txtCNPJ" name="txtCNPJ" readonly/>
+    <br />
+
+    <label for="txtCidade" id="lblCidade">Cidade: </label>
+    <input type="text" id="txtCidade" name="txtCidade" />
+    <br />
+
+    <label for="txtUF" id="lblUF">UF: </label>
+    <input type="text" id="txtUF" name="txtUF" />
+    <br />
+
+    <input type="button" id="btnAlterarEmpresa" name="btnAlterarEmpresa" value="Alterar Empresa" onclick="AlterarEmpresa()" />
+    <input type="button" id="btnVoltar" name="btnVoltar" value="Voltar" onclick="Voltar()" />
+</form>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            PopulaCampos();
+
+        });
+        function PopulaCampos() {
+            $.ajax({
+                url: '@Url.Action("PopulaCamposEmpresa")',
+                type: 'POST',
+                data: {},
+                success: function (data) {
+                    $('#txtRazaoSocial').val(data.auxRazaoSocial);
+                    $('#txtCNPJ').val(data.auxCNPJ);
+                    $('#txtCidade').val(data.auxCidade);
+                    $('#txtUF').val(data.auxUF);
+                    
+                },
+                erro: function (data) {
+                    alert("Errou")
+                }
+            });
+        }
+        function AlterarEmpresa() {
+            if ($("#txtRazaoSocial").val() == "") {
+                alert('Razão Sozial Obrigatorio');
+            } else if ($("#txtRazaoSocial").val() != "" ) {
+                var form = $('#form').serialize();
+                $.ajax({
+                url: '@Url.Action("AtualizarEmpresa")',
+                type: 'POST',
+                data: form,
+                success: function () {
+                    alert('Atualizado Com Sucesso');
+                    var targetUrl = "/Tizer/ListaEmpresas";
+                    window.location.href = targetUrl;
+                },
+                error: function () {
+                    alert('Ops! Alguma coisa deu errado');
+                }
+            });
+            }
+                
+
+        }
+
+        function Voltar() {
+            var targetUrl = "/Tizer/ListaEmpresas";
+            window.location.href = targetUrl;
+        }
+
+
+    </script>
+}
